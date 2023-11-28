@@ -1,0 +1,71 @@
+spring:
+  web:
+    resources:
+      static-locations: classpath:/dist/
+      add-mappings: "false"
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+    hibernate:
+      # 나중에 다시 none으로 바꾸기
+      ddl-auto: create
+#      ddl-auto: none
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: never
+  datasource:
+    url: jdbc:mariadb://a508.co.kr:3306/knocknock
+    username: root
+    password: knocknock
+    driver-class-name: org.mariadb.jdbc.Driver
+
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
+
+#  redis:
+#    host: redis
+#    #    host: localhost
+#    port: 6379
+
+
+  jackson:
+    time-zone: Asia/Seoul
+
+logging:
+  level:
+    org:
+      hibernate.SQL: DEBUG
+      hibernate.type.descriptor.sql.BasicBinder: TRACE
+      spring.boot: DEBUG
+      spring.security: DEBUG
+      spring.web: DEBUG
+      apache.tiles: INFO
+    root: INFO
+    com.samsung.security: DEBUG
+
+server:
+  error:
+    include-exception: false     # Response 에 Exception 을 표시할지
+    include-message: always      # Response 에 Exception Message 를 표시할지 (never | always | on_param)
+    include-stacktrace: on_param # Response 에 Stack Trace 를 표시할지 (never | always | on_param) on_trace_params 은 deprecated
+  port: 8083
+  forward-headers-strategy: native
+
+
+cors:
+  front_url: "*"
+
+# swagger 관련
+springfox:
+  documentation:
+    swagger:
+      use-model-v3: false
