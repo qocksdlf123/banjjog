@@ -1,7 +1,7 @@
 package com.banjjog.domain.user.domain;
 
 
-import com.banjjog.domain.reply.domain.Relpy;
+import com.banjjog.domain.reply.domain.Reply;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,7 +24,7 @@ public class Users {
     Integer userId;
 
     @OneToMany(mappedBy = "user")
-    List<Relpy> relpies = new ArrayList<>();
+    List<Reply> relpies = new ArrayList<>();
 
     @Column(name = "my_name")
     String myName;
@@ -32,6 +32,4 @@ public class Users {
     @Column(name = "your_name")
     String yourName;
 
-    @Column(name = "current_day")
-    Integer currentDay;
 }

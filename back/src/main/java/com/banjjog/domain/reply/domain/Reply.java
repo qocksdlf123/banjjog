@@ -13,14 +13,14 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
-public class Relpy {
+public class Reply {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer replyId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "USER_ID")
+    @JoinColumn(name = "user_id")
     Users users;
 
     @Column(name = "day")
