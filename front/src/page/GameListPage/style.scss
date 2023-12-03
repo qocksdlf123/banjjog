@@ -20,15 +20,6 @@ $gameListItemBorderColor: #ff9750;
   body {
     font-size: 18px;
   }
-  .webapp-box {
-    display: flex;
-    flex-direction: column;
-    margin: auto auto;
-    padding: 20px;
-    width: 50vw;
-    height: 100vh;
-    background-color: $backgroundColor;
-  }
   .gameList-header {
     height: 15%;
   }
@@ -59,9 +50,9 @@ $gameListItemBorderColor: #ff9750;
     align-items: center;
     position: relative;
     width: 70%;
-    height: 13%;
+    height: 14%;
     border: 1px solid $gameListItemBorderColor;
-    font-size: xx-large;
+    font-size: x-large;
     cursor: pointer;
   }
   .gameList-item-unlock {
