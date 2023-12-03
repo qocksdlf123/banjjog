@@ -1,0 +1,77 @@
+$backgroundColor: #f9e7d1;
+$titleTextColor: #fe7c24;
+$mainTextColor: #ff9750;
+$lockColor: #fe7c24;
+$gameListItemBorderColor: #ff9750;
+
+@media only screen and (max-width: 600px) {
+  body {
+    font-size: 14px;
+  }
+  .webapp-box {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    background-color: $backgroundColor;
+  }
+}
+
+@media only screen and (min-width: 1025px) {
+  body {
+    font-size: 18px;
+  }
+  .webapp-box {
+    display: flex;
+    flex-direction: column;
+    margin: auto auto;
+    padding: 20px;
+    width: 50vw;
+    height: 100vh;
+    background-color: $backgroundColor;
+  }
+  .gameList-header {
+    height: 15%;
+  }
+  .gameList-title {
+    color: $titleTextColor;
+    text-align: center;
+    font-size: xxx-large;
+  }
+  .gameList-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 70%;
+  }
+
+  .gameList-footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 15%;
+  }
+
+  .gameList-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 70%;
+    height: 13%;
+    border: 1px solid $gameListItemBorderColor;
+    font-size: xx-large;
+    cursor: pointer;
+  }
+  .gameList-item-unlock {
+    position: absolute;
+    height: 100%;
+    left: -6%;
+  }
+  .gameList-item-lock {
+    position: absolute;
+    height: 100%;
+    left: -6%;
+  }
+}
