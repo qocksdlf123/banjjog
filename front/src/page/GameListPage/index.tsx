@@ -18,7 +18,7 @@ export default GameListPage;
 
 const Header = () => {
   return (
-    <div className="main-header">
+    <div className="gameList-header">
       <div className="main-title">[텍스트, 제목] 게임 선택</div>
     </div>
   );
@@ -44,7 +44,7 @@ const Footer = () => {
     history("/question");
   };
   return (
-    <div className="main-footer">
+    <div className="gameList-footer">
       <button onClick={startGame} className="main-start-btn">
         시작하기
       </button>
