@@ -3,6 +3,7 @@ $titleTextColor: #fe7c24;
 $mainTextColor: #ff9750;
 $lockColor: #fe7c24;
 $gameListItemBorderColor: #ff9750;
+$selectboxColor: #fe7c24;
 
 @media only screen and (max-width: 600px) {
   body {
@@ -31,7 +32,12 @@ $gameListItemBorderColor: #ff9750;
     justify-content: space-between;
   }
   .question-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 30%;
+    color: $mainTextColor;
+    font-size: xxx-large;
   }
   .question-footer {
     display: flex;
@@ -39,5 +45,17 @@ $gameListItemBorderColor: #ff9750;
     align-items: center;
     justify-content: space-around;
     height: 50%;
+  }
+  .question-selectbox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+    height: 18%;
+    padding: 7px;
+    border-radius: 10px;
+    color: white;
+    font-size: x-large;
+    background-color: $selectboxColor;
   }
 }
