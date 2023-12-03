@@ -72,7 +72,7 @@ const GameListItem: React.FC<{
 
   if (isLock) {
     return (
-      <div onClick={selectDay} className="gameList-item">
+      <div onClick={selectDay} className="gameList-item ">
         <img className="gameList-item-unlock" src={UnLock} />
         <div>{title}</div>
       </div>
