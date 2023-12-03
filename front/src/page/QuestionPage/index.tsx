@@ -9,6 +9,11 @@ interface QuestionProps {
 }
 
 const QuestionPage = () => {
+  useEffect(() => {
+    localStorage.setItem("curPage", "1");
+    localStorage.setItem("totalPage", "10");
+  }, []);
+
   return (
     <div className="webapp-box">
       <Header></Header>
@@ -64,47 +69,61 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ cur, total }) => {
 
 const Body = () => {
   return (
-    <div className="gameList-body">
-      <GameListItem isLock={true} title={GameList.Day1}></GameListItem>
-      <GameListItem isLock={false} title={GameList.Day2}></GameListItem>
-      <GameListItem isLock={false} title={GameList.Day3}></GameListItem>
-      <GameListItem isLock={false} title={GameList.Day4}></GameListItem>
-      <GameListItem isLock={false} title={GameList.Day5}></GameListItem>
-      <GameListItem isLock={false} title={GameList.Day6}></GameListItem>
+    <div className="question-body">
+      <QuestionBox></QuestionBox>
     </div>
   );
 };
 
 const Footer = () => {
-  return <div className="question-footer"></div>;
+  let curPage = parseInt(localStorage.getItem("curPage")!);
+  return (
+    <div className="question-footer">
+      <SelectBox
+        answer={Answer[parseInt(localStorage.getItem("curPage")!)][0]}
+      ></SelectBox>
+      <SelectBox answer={Answer[curPage][1]}></SelectBox>
+      <SelectBox answer={Answer[curPage][2]}></SelectBox>
+      <SelectBox answer={Answer[curPage][3]}></SelectBox>
+    </div>
+  );
 };
 
-const GameList = {
-  Day1: "Day 1. 소통 우리의 감정 맞춰보기",
-  Day2: "Day 2. 성&사랑 판타지 속 ‘장소’ 탐색하기",
-  Day3: "Day 3. 경제&생활 주머니 사정 공개 가능?",
-  Day4: "Day 4. 소통 우리의 격려 유형은?",
-  Day5: " Day 5. 성&사랑 판타지 속 ‘분위기’ 탐색하기",
-  Day6: " Day 6. 경제&생활 데이트 비용에 관하여",
+const QuestionBox = () => {
+  return (
+    <div>
+      {parseInt(localStorage.getItem("curPage")!)}.{"  "}
+      {Question[parseInt(localStorage.getItem("curPage")!)]}
+    </div>
+  );
 };
 
-const GameListItem: React.FC<{ isLock: boolean; title: string }> = ({
-  isLock,
-  title,
-}) => {
-  if (isLock) {
-    return (
-      <div className="gameList-item">
-        <img className="gameList-item-unlock" src={UnLock} />
-        <div>{title}</div>
-      </div>
-    );
-  } else {
-    return (
-      <div className="gameList-item">
-        <img className="gameList-item-lock" src={Lock} />
-        {title}
-      </div>
-    );
-  }
+const Question = [
+  "이번 주에 내가 가장 많이 느끼는 감정은?",
+  "반쪽에게 가장 드러내고 싶지 않은 감정은?",
+];
+
+const Answer = [
+  [
+    "a. 배달 온 떡볶이 값을 거짓말해서 차익 챙기기",
+    "b. 다른 사람에게 선물 받은 것을 내게 선물하면서 아무 말 하지 않기 ",
+    "c. 소득을 거짓말해 커플 통장에 넣는 자기 예금 축소시키기",
+    "d. 거짓말은 단 하나도 허용할 수 없다😠!",
+  ],
+  [
+    "a. 배달 온 떡볶이 값을 거짓말해서 차익 챙기기",
+    "b. 다른 사람에게 선물 받은 것을 내게 선물하면서 아무 말 하지 않기 ",
+    "c. 소득을 거짓말해 커플 통장에 넣는 자기 예금 축소시키기",
+    "d. 거짓말은 단 하나도 허용할 수 없다😠!",
+  ],
+  [
+    "a. 배달 온 떡볶이 값을 거짓말해서 차익 챙기기",
+    "b. 다른 사람에게 선물 받은 것을 내게 선물하면서 아무 말 하지 않기 ",
+    "c. 소득을 거짓말해 커플 통장에 넣는 자기 예금 축소시키기",
+    "d. 거짓말은 단 하나도 허용할 수 없다😠!",
+  ],
+];
+
+const SelectBox: React.FC<{ answer: string }> = ({ answer }) => {
+  return <div className="question-selectbox">{answer}</div>;
 };
