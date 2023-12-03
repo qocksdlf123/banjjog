@@ -67,7 +67,7 @@ const Footer = () => {
     history("/gameList");
   };
   return (
-    <div className="main-footer">
+    <div className="start-footer">
       <button onClick={startGame} className="main-start-btn">
         시작하기
       </button>
