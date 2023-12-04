@@ -2,7 +2,11 @@ import "./style.scss";
 import UnLock from "../../assets/GameListPageAssets/UnLock.png";
 import Lock from "../../assets/GameListPageAssets/Lock.png";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
+
+import { countPage } from "../../recoil/atoms";
+import { countTotalPage } from "../../recoil/atoms";
 
 interface QuestionProps {
   day: number;
@@ -10,7 +14,6 @@ interface QuestionProps {
 
 const QuestionPage = () => {
   useEffect(() => {
-    localStorage.setItem("curPage", "1");
     localStorage.setItem("totalPage", "10");
   }, []);
 
@@ -30,29 +33,29 @@ const Header = () => {
     <div className="question-header">
       <div className="question-header-title">
         <div></div>
-        <PageNum />
+        <PageNum totalPage={4} />
       </div>
-      <ProgressBar cur={1} total={10}></ProgressBar>
+      <ProgressBar total={4}></ProgressBar>
     </div>
   );
 };
 
-const PageNum = () => {
+const PageNum: React.FC<{ totalPage: number }> = ({ totalPage }) => {
+  const [curPage, setCurPage] = useRecoilState<number>(countPage);
   return (
     <div>
-      {" "}
-      {localStorage.getItem("curPage")} / {localStorage.getItem("totalPage")}{" "}
+      {curPage} / {totalPage}
     </div>
   );
 };
 
 interface ProgressBarProps {
-  cur: number;
   total: number;
 }
 
-const ProgressBar: React.FC<ProgressBarProps> = ({ cur, total }) => {
-  const progress = (cur * 100) / total;
+const ProgressBar: React.FC<ProgressBarProps> = ({ total }) => {
+  const [curPage, setCurPage] = useRecoilState<number>(countPage);
+  const progress = (curPage * 100) / total;
 
   return (
     <div style={{ border: "1px solid #ccc", width: "80%" }}>
@@ -79,31 +82,42 @@ const Footer = () => {
   let curPage = parseInt(localStorage.getItem("curPage")!);
   return (
     <div className="question-footer">
-      <SelectBox
-        answer={Answer[parseInt(localStorage.getItem("curPage")!)][0]}
-      ></SelectBox>
-      <SelectBox answer={Answer[curPage][1]}></SelectBox>
-      <SelectBox answer={Answer[curPage][2]}></SelectBox>
-      <SelectBox answer={Answer[curPage][3]}></SelectBox>
+      <SelectBox num={0}></SelectBox>
+      <SelectBox num={1}></SelectBox>
+      <SelectBox num={2}></SelectBox>
+      <SelectBox num={3}></SelectBox>
     </div>
   );
 };
 
 const QuestionBox = () => {
+  const [curPage, setCurPage] = useRecoilState<number>(countPage);
+
   return (
     <div>
-      {parseInt(localStorage.getItem("curPage")!)}.{"  "}
-      {Question[parseInt(localStorage.getItem("curPage")!)]}
+      {curPage}.{"  "}
+      {Question[curPage]}
     </div>
   );
 };
 
 const Question = [
+  "",
   "이번 주에 내가 가장 많이 느끼는 감정은?",
   "반쪽에게 가장 드러내고 싶지 않은 감정은?",
+  "나는 ____ 감정 표현이 서툴다.",
+  "반쪽이 조금 더 드러냈으면 하는 감정은?",
 ];
 
 const Answer = [
+  [],
+  ["a. 신남", "b. 우울", "c. 안정", "d. 흥분"],
+  ["a. 우울", "b. 걱정", "c. 초조", "d. 실망"],
+  ["a. 고마움", "b. 기쁨", "c. 슬픔", "d. 아쉬움"],
+  ["a. 고마움", "b. 기쁨", "c. 슬픔", "d. 아쉬움"],
+
+  ["a. 우울", "b. 걱정", "c. 초조", "d. 실망"],
+
   [
     "a. 배달 온 떡볶이 값을 거짓말해서 차익 챙기기",
     "b. 다른 사람에게 선물 받은 것을 내게 선물하면서 아무 말 하지 않기 ",
@@ -124,6 +138,23 @@ const Answer = [
   ],
 ];
 
-const SelectBox: React.FC<{ answer: string }> = ({ answer }) => {
-  return <div className="question-selectbox">{answer}</div>;
+const SelectBox: React.FC<{ num: number }> = ({ num }) => {
+  const history = useNavigate();
+  const [curPage, setCurPage] = useRecoilState<number>(countPage);
+  const [totalPage, setTotalPage] = useRecoilState<number>(countTotalPage);
+
+  return (
+    <div
+      onClick={() => {
+        if (curPage == totalPage) {
+          history("/gameResult");
+        } else {
+          setCurPage((preValue) => preValue + 1);
+        }
+      }}
+      className="question-selectbox"
+    >
+      {Answer[curPage][num]}
+    </div>
+  );
 };
