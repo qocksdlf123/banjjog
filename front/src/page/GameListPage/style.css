@@ -1,9 +1,3 @@
-$backgroundColor: #f9e7d1;
-$titleTextColor: #fe7c24;
-$mainTextColor: #ff9750;
-$lockColor: #fe7c24;
-$gameListItemBorderColor: #ff9750;
-
 @media only screen and (max-width: 600px) {
   body {
     font-size: 14px;
@@ -12,7 +6,7 @@ $gameListItemBorderColor: #ff9750;
     display: flex;
     width: 100vw;
     height: 100vh;
-    background-color: $backgroundColor;
+    background-color: #f9e7d1;
   }
 }
 
@@ -24,7 +18,7 @@ $gameListItemBorderColor: #ff9750;
     height: 15%;
   }
   .gameList-title {
-    color: $titleTextColor;
+    color: #fe7c24;
     text-align: center;
     font-size: xxx-large;
   }
@@ -51,7 +45,7 @@ $gameListItemBorderColor: #ff9750;
     position: relative;
     width: 70%;
     height: 14%;
-    border: 1px solid $gameListItemBorderColor;
+    border: 1px solid #ff9750;
     font-size: x-large;
     cursor: pointer;
   }

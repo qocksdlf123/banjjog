@@ -1,7 +1,3 @@
-$backgroundColor: #f9e7d1;
-$titleTextColor: #fe7c24;
-$mainTextColor: #ff9750;
-
 @media only screen and (max-width: 600px) {
   body {
     font-size: 14px;
