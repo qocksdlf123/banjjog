@@ -1,4 +1,4 @@
-import "./style.scss";
+import "./style.css";
 import UnLock from "../../assets/GameListPageAssets/UnLock.png";
 import Lock from "../../assets/GameListPageAssets/Lock.png";
 import { useNavigate } from "react-router-dom";

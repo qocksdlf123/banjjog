@@ -1,4 +1,4 @@
-import "./style.scss";
+import "./style.css";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import ShareLinkImage from "../../assets/GameResultPageAssets/ShareLinkImage.png";
