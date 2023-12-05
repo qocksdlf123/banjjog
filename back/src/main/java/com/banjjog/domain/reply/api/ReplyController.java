@@ -22,7 +22,7 @@ public class ReplyController {
         return  replyService.getReply(replyId);
     }
 
-    @Operation(summary = "userId로 모든 text 즉 소감 조회")
+    @Operation(summary = "userId로 모든 text 즉 소감 조회", description = "해당하는 dat도 같이 조회")
     @GetMapping("/text")
     ResponseEntity<List<ReplyGetTextResDto>> getTexts(@RequestParam Integer userId){
         return replyService.getTexts(userId);
@@ -36,7 +36,7 @@ public class ReplyController {
     }
 
     @Operation(summary = "기존에 답변한 내용에 소감 즉 text 추가하는 update api"
-            ,description = "text만 추가함"
+            ,description = "text만 수정하면 됨"
     )
     @PutMapping("")
     ResponseEntity<ReplyUpdateResDto> updateReply(@RequestBody ReplyUpdateReqDto dto){
