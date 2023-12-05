@@ -11,6 +11,9 @@ import org.springframework.stereotype.Repository;
 public interface UserRepository extends JpaRepository<Users, Integer> {
 
     @Query("select u from Users u where u.myName = :myName and u.yourName = :yourName")
-    ResponseEntity<Users> isExistUser(@Param("myName") String myName,
+    Users isExistUser(@Param("myName") String myName,
                                       @Param("yourName") String yourName);
+
+    @Query("select count(u.userId) from Users u")
+    Integer countUsers();
 }

@@ -54,8 +54,6 @@ server:
   forward-headers-strategy: native
 
 
-cors:
-  front_url: "*"
 
 # swagger 관련
 springfox:

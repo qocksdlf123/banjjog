@@ -23,8 +23,8 @@ public class Users {
     @Column(name = "user_id")
     Integer userId;
 
-    @OneToMany(mappedBy = "user")
-    List<Reply> relpies = new ArrayList<>();
+    @OneToMany(mappedBy = "users")
+    List<Reply> replies = new ArrayList<>();
 
     @Column(name = "my_name")
     String myName;

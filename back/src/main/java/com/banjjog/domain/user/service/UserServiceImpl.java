@@ -25,7 +25,8 @@ public class UserServiceImpl implements UserService {
                         myName(dto.getMyName()).
                         yourName(dto.getYourName()).
                         build();
-
+        userRepository.save(user);
+        log.info("유저 회원가입 : {}",user);
         return UserCreateResuestDto.builder().
                 userId(user.getUserId()).
                 myName(user.getMyName()).
@@ -35,10 +36,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Integer isExistUser(UserCreateRequestDto dto) {
-        ResponseEntity<Users> existUser = userRepository.isExistUser(dto.getMyName(), dto.getYourName());
+        Users existUser = userRepository.isExistUser(dto.getMyName(), dto.getYourName());
+        log.info("");
         if(existUser == null) return 0;
 
-        return existUser.getBody().getUserId();
+        return existUser.getUserId();
+    }
+
+    @Override
+    public Integer countUser() {
+        return userRepository.countUsers();
     }
 
 
