@@ -1,10 +1,16 @@
 package com.banjjog.domain.reply.service;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import com.banjjog.domain.reply.dto.*;
+import org.springframework.http.ResponseEntity;
+
+import java.util.List;
 
 
 public interface ReplyService {
+    ResponseEntity<ReplyGetResDto> getReply(Integer replyId);
+    ResponseEntity<ReplyCreateResDto> createReply(ReplyCreateReqDto dto);
+
+    ResponseEntity<ReplyUpdateResDto> updateReply(ReplyUpdateReqDto dto);
+
+    ResponseEntity<List<ReplyGetTextResDto>> getTexts(Integer userId);
 }

@@ -1,13 +1,12 @@
 package com.banjjog.domain.user.service;
 
-import com.banjjog.domain.user.domain.Users;
-import com.banjjog.domain.user.dto.UserCreateRequestDto;
-import com.banjjog.domain.user.dto.UserCreateResuestDto;
+import com.banjjog.domain.user.dto.UserCreateReqDto;
+import com.banjjog.domain.user.dto.UserCreateResDto;
 
 public interface UserService {
-    UserCreateResuestDto createUser(UserCreateRequestDto dto);
+    UserCreateResDto createUser(UserCreateReqDto dto);
 
-    Integer isExistUser(UserCreateRequestDto dto);
+    Integer isExistUser(UserCreateReqDto dto);
 
     Integer countUser();
 }

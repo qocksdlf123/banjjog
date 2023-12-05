@@ -19,9 +19,6 @@ public class Reply {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer replyId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    Users users;
 
     @Column(name = "day")
     Integer day;
@@ -32,7 +29,14 @@ public class Reply {
     @Column(name = "predicted_reply")
     String predictedReply;
 
-    @Column(name = "impression")
-    String impression;
+    @Column(name = "text")
+    String text;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    Users users;
+
+    public void updateTest(String text){
+        this.text = text;
+    }
 }

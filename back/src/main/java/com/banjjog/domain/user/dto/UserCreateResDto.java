@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class UserCreateResuestDto {
+public class UserCreateResDto {
     Integer userId;
 
     String myName;
