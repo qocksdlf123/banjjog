@@ -1,64 +1,52 @@
-@media only screen and (max-width: 600px) {
-  body {
-    font-size: 14px;
-  }
-  .webapp-box {
-    display: flex;
-    width: 100vw;
-    height: 100vh;
-    background-color: #f9e7d1;
-  }
+.webapp-box {
+  display: flex;
+  flex-direction: column;
+  /* margin: auto auto; */
+  width: 100vw;
+  height: 100vh;
+  background-color: #f9e7d1;
 }
-
-@media only screen and (min-width: 1025px) {
-  body {
-    font-size: 18px;
-  }
-  .webapp-box {
-    display: flex;
-    flex-direction: column;
-    margin: auto auto;
-    padding: 20px;
-    width: 50vw;
-    height: 94vh;
-    background-color: #f9e7d1;
-  }
-  .main-header {
-    height: 15%;
-  }
-  .main-title {
-    color: #fe7c24;
-    text-align: center;
-    font-size: xxx-large;
-  }
-  .main-body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 55%;
-  }
-  .main-body-text {
-    width: 60%;
-    color: #ff9750;
-  }
-  .main-body-logo {
-    margin: auto;
-  }
-  .main-footer {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 30%;
-  }
-  .main-start-btn {
-    width: 60%;
-    height: 10vh;
-    background-color: #fe7c24;
-    border-radius: 10px;
-    color: #ffffff;
-    font-size: x-large;
-    border: none;
-    cursor: pointer;
-  }
+.main-header {
+  height: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: end;
+}
+.main-title {
+  color: #fe7c24;
+  text-align: center;
+  font-size: xxx-large;
+}
+.main-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 50%;
+  padding-top: 10%;
+  box-sizing: border-box;
+}
+.main-body-text {
+  text-align: center;
+  width: 60%;
+  color: #ff9750;
+}
+.main-body-logo {
+  margin: auto;
+}
+.main-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 30%;
+}
+.main-start-btn {
+  width: 60%;
+  height: 8vh;
+  /* margin-bottom: 5vh; */
+  background-color: #fe7c24;
+  border-radius: 10px;
+  color: #ffffff;
+  font-size: x-large;
+  border: none;
+  cursor: pointer;
 }

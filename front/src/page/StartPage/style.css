@@ -1,44 +1,48 @@
-@media only screen and (max-width: 600px) {
-  body {
-    font-size: 14px;
-  }
+.start-header {
+  height: 20%;
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  padding-bottom: 10%;
+  box-sizing: border-box;
+}
+.start-title {
+  text-align: center;
+  font-size: larger;
+  color: #ff9750;
+}
+.start-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 50%;
+}
+.start-footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 30%;
+}
+.start-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 70%;
+  height: 35%;
+  font-size: x-large;
 }
 
-@media only screen and (min-width: 1025px) {
-  body {
-    font-size: 18px;
-  }
-  .main-header {
-    height: 20%;
-  }
-  .start-body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    height: 60%;
-  }
-  .start-footer {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 20%;
-  }
-  .start-container {
-    width: 70%;
-    height: 30%;
-    font-size: xx-large;
-  }
-
-  .start-inputbox {
-    width: 100%;
-    height: 70%;
-    font-size: xxx-large;
-  }
-  .start-body-text {
-    width: 70%;
-    text-align: center;
-    font-size: xx-large;
-  }
+.start-inputbox {
+  width: 100%;
+  height: 60%;
+  font-size: x-large;
+  border: 3px solid black;
+  background-color: transparent;
+}
+.start-body-text {
+  width: 70%;
+  text-align: center;
+  font-size: large;
 }
