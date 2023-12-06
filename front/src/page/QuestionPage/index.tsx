@@ -29,16 +29,22 @@ const QuestionPage = () => {
 export default QuestionPage;
 
 const Header = () => {
+  const day = parseInt(localStorage.getItem("day")!);
+  const subject = subjects[(day - 1) / 3];
   return (
     <div className="question-header">
       <div className="question-header-title">
-        <div></div>
+        <div>
+          Day {day}. {subject}
+        </div>
         <PageNum totalPage={4} />
       </div>
       <ProgressBar total={4}></ProgressBar>
     </div>
   );
 };
+
+const subjects = ["소통", "성&사랑", "경제&생활"];
 
 const PageNum: React.FC<{ totalPage: number }> = ({ totalPage }) => {
   const [curPage, setCurPage] = useRecoilState<number>(countPage);
@@ -62,7 +68,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ total }) => {
       <div
         style={{
           width: `${progress}%`,
-          height: "3vh",
+          height: "2vh",
           backgroundColor: "black",
         }}
       ></div>
