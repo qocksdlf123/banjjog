@@ -17,8 +17,8 @@ export default StartPage;
 
 const Header = () => {
   return (
-    <div className="main-header">
-      <div className="main-title">[텍스트, 제목] 반쪽 퀴즈</div>
+    <div className="start-header">
+      <div className="start-title">나와 연인의 이름을 입력해주세요.</div>
     </div>
   );
 };

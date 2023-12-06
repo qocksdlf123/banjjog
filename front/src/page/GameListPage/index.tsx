@@ -19,7 +19,7 @@ export default GameListPage;
 const Header = () => {
   return (
     <div className="gameList-header">
-      <div className="main-title">[텍스트, 제목] 게임 선택</div>
+      <div className="main-title bold">게임 선택</div>
     </div>
   );
 };
