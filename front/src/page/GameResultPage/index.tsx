@@ -49,9 +49,14 @@ const NoResultBody = () => {
 const NoResultFooter = () => {
   return (
     <div className="no-result-footer">
-      <img className="no-result-footer-shareLink" src={ShareLinkImage}></img>
-
-      <img className="no-result-footer-kakao" src={KakaoImage}></img>
+      <div className="no-result-footer-iconContainer">
+        <img className="no-result-footer-icon" src={ShareLinkImage}></img>
+        <div>공유 링크</div>
+      </div>
+      <div className="no-result-footer-iconContainer">
+        <img className="no-result-footer-icon" src={KakaoImage}></img>
+        <div>카카오톡 채널추가</div>
+      </div>
     </div>
   );
 };
