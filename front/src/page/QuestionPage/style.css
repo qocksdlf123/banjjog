@@ -7,6 +7,9 @@
 .question-header-title {
   display: flex;
   justify-content: space-between;
+  width: 100%;
+  padding: 10%;
+  box-sizing: border-box;
 }
 .question-body {
   display: flex;
@@ -14,25 +17,29 @@
   align-items: center;
   height: 30%;
   color: #ff9750;
-  font-size: xxx-large;
+  font-size: xx-large;
+  padding: 15%;
+  box-sizing: border-box;
 }
 .question-footer {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: space-around;
+  align-items: center;
   height: 50%;
+  padding-bottom: 20%;
+  box-sizing: border-box;
 }
 .question-selectbox {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 70%;
-  height: 18%;
+  height: 13%;
   padding: 7px;
   border-radius: 10px;
   color: white;
   font-size: x-large;
-  background-color: #fe7c24;
+  background-color: #da7e4a;
   cursor: pointer;
 }
