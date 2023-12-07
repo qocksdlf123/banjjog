@@ -184,19 +184,24 @@ const ResultFooter = () => {
     }
   };
 
+  const history = useNavigate();
+  const endbtn = () => {
+    history("/myResult");
+  };
+
   return (
     <div className="result-footer">
       <div style={{ display: "flex", justifyContent: "center" }}>
         <div className="no-result-footer-iconContainer">
           <img
-            className="no-result-footer-icon"
+            className="result-footer-icon"
             src={ShareLinkImage}
             onClick={copyToClipboard}
           ></img>
           <div>공유 링크</div>
         </div>
         <div className="no-result-footer-iconContainer">
-          <img className="no-result-footer-icon" src={KakaoImage}></img>
+          <img className="result-footer-icon" src={KakaoImage}></img>
           <div>카카오톡 채널추가</div>
         </div>
 
@@ -208,7 +213,18 @@ const ResultFooter = () => {
           </div>
         )}
       </div>
-      <input className="result-footer-inputbox"></input>
+      <div className="result-footer-memobox">
+        <div className="result-footer-inputbox-text">
+          [입력란] 내 반쪽에 대해 새롭게 알게 된 점을 남겨볼까요? (100자 이내)
+        </div>
+        <input
+          placeholder="서로 새롭게 알게 된 점을 다음 페이지에서 모아 볼 수 있어요. "
+          className="result-footer-inputbox"
+        ></input>
+      </div>
+      <button onClick={endbtn} className="result-footer-end-btn">
+        입력 완료
+      </button>
     </div>
   );
 };
