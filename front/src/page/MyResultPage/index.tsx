@@ -4,7 +4,7 @@ import Lock from "../../assets/GameListPageAssets/Lock.png";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-const GameListPage = () => {
+const MyResultPage = () => {
   return (
     <div className="webapp-box">
       <Header></Header>
@@ -14,7 +14,7 @@ const GameListPage = () => {
   );
 };
 
-export default GameListPage;
+export default MyResultPage;
 
 const Header = () => {
   return (
