@@ -1,6 +1,4 @@
 import "./style.css";
-import UnLock from "../../assets/GameListPageAssets/UnLock.png";
-import Lock from "../../assets/GameListPageAssets/Lock.png";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
@@ -9,7 +7,6 @@ const MyResultPage = () => {
     <div className="webapp-box">
       <Header></Header>
       <Body></Body>
-      <Footer></Footer>
     </div>
   );
 };
@@ -19,70 +16,116 @@ export default MyResultPage;
 const Header = () => {
   return (
     <div className="gameList-header">
-      <div className="main-title bold">게임 선택</div>
+      <div className="main-title bold">반쪽 저장소</div>
     </div>
   );
 };
 
 const Body = () => {
-  const [selectedDay, setSelectedDay] = useState<number>();
   return (
-    <div className="gameList-body">
-      <GameListItem isLock={true} title={GameList.Day1} day={1}></GameListItem>
-      <GameListItem isLock={false} title={GameList.Day2} day={2}></GameListItem>
-      <GameListItem isLock={false} title={GameList.Day3} day={3}></GameListItem>
-      <GameListItem isLock={false} title={GameList.Day4} day={4}></GameListItem>
-      <GameListItem isLock={false} title={GameList.Day5} day={5}></GameListItem>
-      <GameListItem isLock={false} title={GameList.Day6} day={6}></GameListItem>
+    <div className="myResult-body">
+      <Storage day={1}></Storage>
+      <Storage day={2}></Storage>
+      <Storage day={3}></Storage>
+      <Storage day={4}></Storage>
+      <Storage day={5}></Storage>
+      <Storage day={6}></Storage>
     </div>
   );
 };
 
-const Footer = () => {
-  const history = useNavigate();
-  const startGame = () => {
-    history("/question");
-  };
-  return (
-    <div className="gameList-footer">
-      <button onClick={startGame} className="main-start-btn">
-        시작하기
-      </button>
-    </div>
-  );
-};
+const GameSubject = [
+  "",
+  "Day 1. 소통",
+  "Day 2. 성&사랑",
+  "Day 3. 경제&생활",
+  "Day 4. 소통",
+  " Day 5. 성&사랑",
+  " Day 6. 경제&생활",
+];
 
-const GameList = {
-  Day1: "Day 1. 소통 우리의 감정 맞춰보기",
-  Day2: "Day 2. 성&사랑 판타지 속 ‘장소’ 탐색하기",
-  Day3: "Day 3. 경제&생활 주머니 사정 공개 가능?",
-  Day4: "Day 4. 소통 우리의 격려 유형은?",
-  Day5: " Day 5. 성&사랑 판타지 속 ‘분위기’ 탐색하기",
-  Day6: " Day 6. 경제&생활 데이트 비용에 관하여",
-};
+const GameTitle = [
+  "",
+  "우리의  감정 맞춰보기",
+  "판타지 속 ‘장소’ 탐색하기",
+  "주머니 사정 공개 가능?",
+  "우리의 격려 유형은?",
+  "판타지 속 ‘분위기’ 탐색하기",
+  "데이트 비용에 관하여",
+];
+const Answer = [
+  [],
+  ["a. 신남", "b. 우울", "c. 안정", "d. 흥분"],
+  ["a. 우울", "b. 걱정", "c. 초조", "d. 실망"],
+  ["a. 고마움", "b. 기쁨", "c. 슬픔", "d. 아쉬움"],
+  ["a. 고마움", "b. 기쁨", "c. 슬픔", "d. 아쉬움"],
 
-const GameListItem: React.FC<{
-  isLock: boolean;
-  title: string;
+  ["a. 우울", "b. 걱정", "c. 초조", "d. 실망"],
+
+  [
+    "a. 배달 온 떡볶이 값을 거짓말해서 차익 챙기기",
+    "b. 다른 사람에게 선물 받은 것을 내게 선물하면서 아무 말 하지 않기 ",
+    "c. 소득을 거짓말해 커플 통장에 넣는 자기 예금 축소시키기",
+    "d. 거짓말은 단 하나도 허용할 수 없다😠!",
+  ],
+  [
+    "a. 배달 온 떡볶이 값을 거짓말해서 차익 챙기기",
+    "b. 다른 사람에게 선물 받은 것을 내게 선물하면서 아무 말 하지 않기 ",
+    "c. 소득을 거짓말해 커플 통장에 넣는 자기 예금 축소시키기",
+    "d. 거짓말은 단 하나도 허용할 수 없다😠!",
+  ],
+  [
+    "a. 배달 온 떡볶이 값을 거짓말해서 차익 챙기기",
+    "b. 다른 사람에게 선물 받은 것을 내게 선물하면서 아무 말 하지 않기 ",
+    "c. 소득을 거짓말해 커플 통장에 넣는 자기 예금 축소시키기",
+    "d. 거짓말은 단 하나도 허용할 수 없다😠!",
+  ],
+];
+
+interface StorageProps {
   day: number;
-}> = ({ isLock, title, day }) => {
-  const selectDay = () => {
-    localStorage.setItem("day", day.toString());
-  };
+  myAnswer: number;
+  yourAnswer: number;
+}
 
-  if (isLock) {
+const Storage: React.FC<{ day: number }> = ({ day }) => {
+  return (
+    <div className="myResult-body-container">
+      <div> {GameSubject[day]}</div>
+      <div> {GameTitle[day]}</div>
+
+      <AnswerContainer isMy day={day} answer={1}></AnswerContainer>
+      <AnswerContainer isMy={false} day={day} answer={2}></AnswerContainer>
+    </div>
+  );
+};
+
+interface AnswerContainerProps {
+  isMy: boolean;
+  day: number;
+  answer: number;
+}
+const AnswerContainer: React.FC<AnswerContainerProps> = ({
+  isMy,
+  day,
+  answer,
+}) => {
+  if (isMy) {
     return (
-      <div onClick={selectDay} className="gameList-item ">
-        <img className="gameList-item-icon" src={UnLock} />
-        <div>{title}</div>
-      </div>
-    );
-  } else {
-    return (
-      <div onClick={selectDay} className="gameList-item">
-        <img className="gameList-item-icon" src={Lock} />
-        {title}
+      <div
+        className="myResult-body-answer-container"
+        style={{ backgroundColor: "rgb(255, 197, 131)" }}
+      >
+        {Answer[day][answer]}
       </div>
     );
   }
+  return (
+    <div
+      className="myResult-body-answer-container"
+      style={{ backgroundColor: "#FF9750" }}
+    >
+      {Answer[day][answer]}
+    </div>
+  );
 };
