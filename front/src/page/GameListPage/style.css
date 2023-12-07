@@ -37,14 +37,8 @@
   box-sizing: border-box;
   cursor: pointer;
 }
-.gameList-item-unlock {
+.gameList-item-icon {
   position: absolute;
   height: 100%;
-
-  left: -15%;
-}
-.gameList-item-lock {
-  position: absolute;
-  height: 100%;
-  left: -15%;
+  left: -46.5px;
 }
