@@ -24,10 +24,9 @@
 .question-footer {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  /* justify-content: space-around; */
   align-items: center;
   height: 50%;
-  padding-bottom: 20%;
   box-sizing: border-box;
 }
 .question-selectbox {
@@ -35,11 +34,13 @@
   justify-content: center;
   align-items: center;
   width: 70%;
-  height: 13%;
+  height: 15%;
   padding: 7px;
   border-radius: 10px;
   color: white;
   font-size: x-large;
   background-color: #da7e4a;
   cursor: pointer;
+  margin-bottom: 5%;
+  box-sizing: border-box;
 }
