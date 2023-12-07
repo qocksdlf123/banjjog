@@ -2,7 +2,7 @@ import "./style.css";
 import UnLock from "../../assets/GameListPageAssets/UnLock.png";
 import Lock from "../../assets/GameListPageAssets/Lock.png";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const GameListPage = () => {
   return (
@@ -73,14 +73,14 @@ const GameListItem: React.FC<{
   if (isLock) {
     return (
       <div onClick={selectDay} className="gameList-item ">
-        <img className="gameList-item-unlock" src={UnLock} />
+        <img className="gameList-item-icon" src={UnLock} />
         <div>{title}</div>
       </div>
     );
   } else {
     return (
       <div onClick={selectDay} className="gameList-item">
-        <img className="gameList-item-lock" src={Lock} />
+        <img className="gameList-item-icon" src={Lock} />
         {title}
       </div>
     );
