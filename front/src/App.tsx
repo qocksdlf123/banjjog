@@ -6,6 +6,7 @@ import GameListPage from "./page/GameListPage";
 import StartPage from "./page/StartPage";
 import QuestionPage from "./page/QuestionPage";
 import GameResultPage from "./page/GameResultPage";
+import MyResultPage from "./page/MyResultPage";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/gameList" element={<GameListPage />} />
         <Route path="/question" element={<QuestionPage />} />
         <Route path="/gameResult" element={<GameResultPage />} />
+        <Route path="/myResult" element={<MyResultPage />} />
       </Routes>
     </BrowserRouter>
   );
