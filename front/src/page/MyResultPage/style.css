@@ -1,0 +1,44 @@
+.gameList-header {
+  height: 15%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.gameList-title {
+  color: #fe7c24;
+  text-align: center;
+  font-size: xxx-large;
+}
+.gameList-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 70%;
+}
+
+.gameList-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 15%;
+}
+
+.gameList-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 70%;
+  height: 14%;
+  border: 1px solid #ff9750;
+  font-size: larger;
+  padding: 0 8%;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+.gameList-item-icon {
+  position: absolute;
+  height: 100%;
+  left: -46.5px;
+}
