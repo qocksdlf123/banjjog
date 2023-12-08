@@ -89,8 +89,12 @@ interface StorageProps {
 }
 
 const Storage: React.FC<{ day: number }> = ({ day }) => {
+  const history = useNavigate();
+  const goResult = () => {
+    history("/totalResult");
+  };
   return (
-    <div className="myResult-body-container">
+    <div onClick={goResult} className="myResult-body-container">
       <div> {GameSubject[day]}</div>
       <div> {GameTitle[day]}</div>
 
