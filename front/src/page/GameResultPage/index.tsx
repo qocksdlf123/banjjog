@@ -102,28 +102,33 @@ const ResultHeader = () => {
 const ResultBody = () => {
   return (
     <div className="result-body">
-      <ResultContainer></ResultContainer>
-      <ResultContainer></ResultContainer>
-      <ResultContainer></ResultContainer>
-      <ResultContainer></ResultContainer>
-      <ResultContainer></ResultContainer>
+      <ResultContainer question={1}></ResultContainer>
+      <ResultContainer question={2}></ResultContainer>
+      <ResultContainer question={3}></ResultContainer>
+      <ResultContainer question={4}></ResultContainer>
     </div>
   );
 };
 
-const ResultContainer = () => {
+interface ResultContainerProps {
+  question: number;
+}
+const ResultContainer: React.FC<ResultContainerProps> = ({ question }) => {
   return (
     <div className="result-body-container">
-      <div>Q1. {Question[1]}</div>
+      <div>
+        Q.{question} {Question[question]}
+      </div>
       <div className="result-body-answer-container">
-        <AnswerContainer isMe></AnswerContainer>
-        <AnswerContainer isMe={false}></AnswerContainer>
+        <AnswerContainer isMy></AnswerContainer>
+        <AnswerContainer isMy={false}></AnswerContainer>
       </div>
     </div>
   );
 };
-const AnswerContainer: React.FC<{ isMe: boolean }> = ({ isMe }) => {
-  if (isMe) {
+const AnswerContainer: React.FC<{ isMy: boolean }> = ({ isMy }) => {
+  const day = parseInt(localStorage.getItem("day")!);
+  if (isMy) {
     return (
       <div
         className="result-body-answer"
@@ -139,7 +144,7 @@ const AnswerContainer: React.FC<{ isMe: boolean }> = ({ isMe }) => {
             textAlign: "center",
           }}
         >
-          Answer[1]
+          {Answer[day][1]}
         </div>
       </div>
     );
@@ -159,7 +164,7 @@ const AnswerContainer: React.FC<{ isMe: boolean }> = ({ isMe }) => {
             textAlign: "center",
           }}
         >
-          Answer[1]
+          {Answer[day][2]}
         </div>
       </div>
     );
@@ -184,19 +189,24 @@ const ResultFooter = () => {
     }
   };
 
+  const history = useNavigate();
+  const endbtn = () => {
+    history("/myResult");
+  };
+
   return (
     <div className="result-footer">
       <div style={{ display: "flex", justifyContent: "center" }}>
         <div className="no-result-footer-iconContainer">
           <img
-            className="no-result-footer-icon"
+            className="result-footer-icon"
             src={ShareLinkImage}
             onClick={copyToClipboard}
           ></img>
           <div>공유 링크</div>
         </div>
         <div className="no-result-footer-iconContainer">
-          <img className="no-result-footer-icon" src={KakaoImage}></img>
+          <img className="result-footer-icon" src={KakaoImage}></img>
           <div>카카오톡 채널추가</div>
         </div>
 
@@ -208,7 +218,18 @@ const ResultFooter = () => {
           </div>
         )}
       </div>
-      <input className="result-footer-inputbox"></input>
+      <div className="result-footer-memobox">
+        <div className="result-footer-inputbox-text">
+          [입력란] 내 반쪽에 대해 새롭게 알게 된 점을 남겨볼까요? (100자 이내)
+        </div>
+        <input
+          placeholder="서로 새롭게 알게 된 점을 다음 페이지에서 모아 볼 수 있어요. "
+          className="result-footer-inputbox"
+        ></input>
+      </div>
+      <button onClick={endbtn} className="result-footer-end-btn">
+        입력 완료
+      </button>
     </div>
   );
 };
