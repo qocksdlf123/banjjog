@@ -102,28 +102,33 @@ const ResultHeader = () => {
 const ResultBody = () => {
   return (
     <div className="result-body">
-      <ResultContainer></ResultContainer>
-      <ResultContainer></ResultContainer>
-      <ResultContainer></ResultContainer>
-      <ResultContainer></ResultContainer>
-      <ResultContainer></ResultContainer>
+      <ResultContainer question={1}></ResultContainer>
+      <ResultContainer question={2}></ResultContainer>
+      <ResultContainer question={3}></ResultContainer>
+      <ResultContainer question={4}></ResultContainer>
     </div>
   );
 };
 
-const ResultContainer = () => {
+interface ResultContainerProps {
+  question: number;
+}
+const ResultContainer: React.FC<ResultContainerProps> = ({ question }) => {
   return (
     <div className="result-body-container">
-      <div>Q1. {Question[1]}</div>
+      <div>
+        Q.{question} {Question[question]}
+      </div>
       <div className="result-body-answer-container">
-        <AnswerContainer isMe></AnswerContainer>
-        <AnswerContainer isMe={false}></AnswerContainer>
+        <AnswerContainer isMy></AnswerContainer>
+        <AnswerContainer isMy={false}></AnswerContainer>
       </div>
     </div>
   );
 };
-const AnswerContainer: React.FC<{ isMe: boolean }> = ({ isMe }) => {
-  if (isMe) {
+const AnswerContainer: React.FC<{ isMy: boolean }> = ({ isMy }) => {
+  const day = parseInt(localStorage.getItem("day")!);
+  if (isMy) {
     return (
       <div
         className="result-body-answer"
@@ -139,7 +144,7 @@ const AnswerContainer: React.FC<{ isMe: boolean }> = ({ isMe }) => {
             textAlign: "center",
           }}
         >
-          Answer[1]
+          {Answer[day][1]}
         </div>
       </div>
     );
@@ -159,7 +164,7 @@ const AnswerContainer: React.FC<{ isMe: boolean }> = ({ isMe }) => {
             textAlign: "center",
           }}
         >
-          Answer[1]
+          {Answer[day][2]}
         </div>
       </div>
     );
