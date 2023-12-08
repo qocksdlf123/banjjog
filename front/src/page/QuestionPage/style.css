@@ -44,3 +44,20 @@
   margin-bottom: 5%;
   box-sizing: border-box;
 }
+
+.question-tempBody {
+  height: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ff9750;
+  font-size: xx-large;
+  padding: 15%;
+  text-align: center;
+}
+
+.question-tempFooter {
+  height: 20%;
+  display: flex;
+  justify-content: center;
+}
