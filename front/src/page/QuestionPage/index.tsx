@@ -7,16 +7,27 @@ import { useRecoilState } from "recoil";
 
 import { countPage } from "../../recoil/atoms";
 import { countTotalPage } from "../../recoil/atoms";
-
+import { endResponse } from "../../recoil/atoms";
 interface QuestionProps {
   day: number;
 }
 
 const QuestionPage = () => {
+  const [curPage, setCurPage] = useRecoilState<number>(countPage);
+  const [isEndResponse, setIsEndResponse] =
+    useRecoilState<boolean>(endResponse);
+
   useEffect(() => {
     localStorage.setItem("totalPage", "10");
   }, []);
-
+  if (isEndResponse && curPage > 4) {
+    return (
+      <div className="webapp-box">
+        <TempBody></TempBody>
+        <TempFooter></TempFooter>
+      </div>
+    );
+  }
   return (
     <div className="webapp-box">
       <Header></Header>
@@ -27,6 +38,30 @@ const QuestionPage = () => {
 };
 
 export default QuestionPage;
+
+const TempBody = () => {
+  return (
+    <div className="question-tempBody">
+      이제 내가 생각하는 연인(반쪽)에 대해서 맞춰 보아요!
+    </div>
+  );
+};
+
+const TempFooter = () => {
+  const [curPage, setCurPage] = useRecoilState<number>(countPage);
+
+  const next = () => {
+    setCurPage(1);
+  };
+
+  return (
+    <div className="question-tempFooter">
+      <button onClick={next} className="main-start-btn">
+        시작하기
+      </button>
+    </div>
+  );
+};
 
 const Header = () => {
   const day = parseInt(localStorage.getItem("day")!);
@@ -98,11 +133,13 @@ const Footer = () => {
 
 const QuestionBox = () => {
   const [curPage, setCurPage] = useRecoilState<number>(countPage);
+  const [isEndResponse, setIsEndResponse] =
+    useRecoilState<boolean>(endResponse);
 
   return (
     <div>
       {curPage}.{"  "}
-      {Question[curPage]}
+      {isEndResponse ? OppQuestion[curPage] : Question[curPage]}
     </div>
   );
 };
@@ -113,6 +150,14 @@ const Question = [
   "반쪽에게 가장 드러내고 싶지 않은 감정은?",
   "나는 ____ 감정 표현이 서툴다.",
   "반쪽이 조금 더 드러냈으면 하는 감정은?",
+];
+
+const OppQuestion = [
+  "",
+  "이번 주에 반쪽이 가장 많이 느끼는 감정은?",
+  "반쪽이 가장 드러내고 싶지 않은 감정은?",
+  "반쪽은 ____ 감정 표현이 서툴다.",
+  "반쪽이 볼 때, 내가 반쪽에게 조금 더 드러냈으면 하는 감정은?",
 ];
 
 const Answer = [
@@ -148,12 +193,19 @@ const SelectBox: React.FC<{ num: number }> = ({ num }) => {
   const history = useNavigate();
   const [curPage, setCurPage] = useRecoilState<number>(countPage);
   const [totalPage, setTotalPage] = useRecoilState<number>(countTotalPage);
+  const [isEndResponse, setIsEndResponse] =
+    useRecoilState<boolean>(endResponse);
 
   return (
     <div
       onClick={() => {
         if (curPage == totalPage) {
-          history("/gameResult");
+          setCurPage((preValue) => preValue + 1);
+          if (isEndResponse) {
+            history("/gameResult");
+          } else {
+            setIsEndResponse(true);
+          }
         } else {
           setCurPage((preValue) => preValue + 1);
         }
