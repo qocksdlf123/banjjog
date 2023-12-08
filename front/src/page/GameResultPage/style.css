@@ -76,8 +76,6 @@
 .result-body-container {
   display: flex;
   flex-direction: column;
-  /* justify-content: space-between; */
-  align-items: center;
   height: 50%;
   width: 85%;
   background-color: #d3d1d1;
