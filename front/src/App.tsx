@@ -7,6 +7,7 @@ import StartPage from "./page/StartPage";
 import QuestionPage from "./page/QuestionPage";
 import GameResultPage from "./page/GameResultPage";
 import MyResultPage from "./page/MyResultPage";
+import TotalResultPage from "./page/TotalResultPage";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/question" element={<QuestionPage />} />
         <Route path="/gameResult" element={<GameResultPage />} />
         <Route path="/myResult" element={<MyResultPage />} />
+        <Route path="/totalResult" element={<TotalResultPage />} />
       </Routes>
     </BrowserRouter>
   );
