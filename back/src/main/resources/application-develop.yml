@@ -69,3 +69,5 @@ springfox:
   documentation:
     swagger:
       use-model-v3: false
+    swagger-ui:
+      base-url: /api/swagger
