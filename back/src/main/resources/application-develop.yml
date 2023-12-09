@@ -21,7 +21,7 @@ spring:
     init:
       mode: never
   datasource:
-    url: jdbc:mariadb://otherhalfgame.site:3306/banjjog
+    url: jdbc:mariadb://mariadb:3306/banjjog
     username: root
     password: banjjog
     driver-class-name: org.mariadb.jdbc.Driver
