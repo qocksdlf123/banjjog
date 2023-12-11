@@ -12,6 +12,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/reply")
+@CrossOrigin
 public class ReplyController {
 
     private final ReplyService replyService;
