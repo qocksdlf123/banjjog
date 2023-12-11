@@ -41,6 +41,21 @@ public class ReplyServiceImpl implements ReplyService{
     }
 
     @Override
+    public ResponseEntity<ReplyGetByUserIdResDto> getReplyByUserId(ReplyGetByUserIdReqDto dto) {
+        Reply reply = replyRepository.getReplyByUserIdAndDay(dto.getUserId(), dto.getDay());
+
+        return ResponseEntity.ok(ReplyGetByUserIdResDto
+                .builder()
+                        .replyId(reply.getReplyId())
+                        .userId(reply.getUsers().getUserId())
+                        .day(reply.getDay())
+                        .myReply(reply.getMyReply())
+                        .predictedReply(reply.getPredictedReply())
+                        .text(reply.getText())
+                .build());
+    }
+
+    @Override
     public ResponseEntity<ReplyCreateResDto> createReply(ReplyCreateReqDto dto) {
         Users users = userRepository.getById(dto.getUserId());
         Reply reply = Reply.builder()

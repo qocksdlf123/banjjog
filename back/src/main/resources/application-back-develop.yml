@@ -25,7 +25,7 @@ spring:
   datasource:
     #    url: -------------------------------develop 용
     hikari:
-      jdbc-url: jdbc:h2:tcp://localhost/~/banjjog
+      jdbc-url: jdbc:h2:~/banjjog
     #    url: jdbc:h2:mem:testdb
     driver-class-name: org.h2.Driver
     username: sa

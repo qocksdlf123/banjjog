@@ -12,4 +12,8 @@ public interface ReplyRepository extends JpaRepository<Reply, Integer> {
 
     @Query("select r from Reply  r where r.users.userId = :userId" )
     List<Reply> getTextByUserId(@Param("userId") Integer userId);
+
+
+    @Query("select r from Reply r where r.users.userId = :userId and r.day = :day")
+    Reply getReplyByUserIdAndDay(@Param("userId") Integer userId, @Param("day") Integer day);
 }
