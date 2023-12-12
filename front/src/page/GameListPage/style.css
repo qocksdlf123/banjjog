@@ -26,7 +26,6 @@
 
 .gameList-item {
   display: flex;
-  justify-content: center;
   align-items: center;
   position: relative;
   width: 70%;
@@ -36,6 +35,10 @@
   padding: 0 8%;
   box-sizing: border-box;
   cursor: pointer;
+  white-space: pre-wrap;
+}
+.gameList-isSelected {
+  border: 3px solid #fe7c24;
 }
 .gameList-item-icon {
   position: absolute;

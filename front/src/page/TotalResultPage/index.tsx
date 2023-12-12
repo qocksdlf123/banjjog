@@ -4,6 +4,7 @@ import { useState } from "react";
 import ShareLinkImage from "../../assets/GameResultPageAssets/ShareLinkImage.png";
 import KakaoImage from "../../assets/GameResultPageAssets/KakaoImage.png";
 import SaveImage from "../../assets/GameResultPageAssets/SaveImage.png";
+import html2canvas from "html2canvas";
 
 const TotalResultPage = () => {
   return (
@@ -133,6 +134,20 @@ const Footer = () => {
     }
   };
 
+  const captureScreen = () => {
+    const rootElement = document.getElementById("root");
+
+    if (rootElement) {
+      html2canvas(rootElement).then((canvas) => {
+        const imgData = canvas.toDataURL("image/png");
+        const link = document.createElement("a");
+        link.download = "screenshot.png";
+        link.href = imgData;
+        link.click();
+      });
+    }
+  };
+
   return (
     <div className="totalResult-footer">
       <div
@@ -153,7 +168,7 @@ const Footer = () => {
           <img className="no-result-footer-icon" src={KakaoImage}></img>
           <div>카톡 채널추가</div>
         </div>
-        <div className="no-result-footer-iconContainer">
+        <div onClick={captureScreen} className="no-result-footer-iconContainer">
           <img className="no-result-footer-icon" src={SaveImage}></img>
           <div>이미지 저장</div>
         </div>

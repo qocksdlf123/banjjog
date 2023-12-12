@@ -9,6 +9,7 @@
   padding-top: 20%;
   box-sizing: border-box;
   text-align: center;
+  white-space: pre-wrap;
 }
 .no-result-body {
   display: flex;
@@ -48,7 +49,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 50%;
+  width: 30%;
 }
 
 .result-header {
@@ -140,6 +141,7 @@
 .result-footer-inputbox-text {
   margin-bottom: 3px;
   box-sizing: border-box;
+  white-space: pre-wrap;
 }
 .result-footer-inputbox {
   width: 100%;
@@ -156,4 +158,30 @@
   color: #ffffff;
   font-size: x-large;
   cursor: pointer;
+}
+
+.loading-header {
+  height: 35%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: xx-large;
+}
+.loading-body {
+  display: flex;
+  justify-content: center;
+  height: 30%;
+}
+.loading-footer {
+  height: 35%;
+  display: flex;
+  justify-content: center;
+  white-space: pre-wrap;
+  font-size: large;
+  color: #ff9750;
+}
+
+.loading-body-logo {
+  width: 50%;
+  margin: auto;
 }

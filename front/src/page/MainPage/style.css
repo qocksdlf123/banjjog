@@ -29,8 +29,11 @@
   text-align: center;
   width: 60%;
   color: #ff9750;
+  white-space: pre-wrap;
+  font-size: large;
 }
 .main-body-logo {
+  width: 50%;
   margin: auto;
 }
 .main-footer {
