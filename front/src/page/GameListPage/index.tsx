@@ -3,6 +3,8 @@ import UnLock from "../../assets/GameListPageAssets/UnLock.png";
 import Lock from "../../assets/GameListPageAssets/Lock.png";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
+import { selectedDayState } from "../../recoil/atoms";
 
 const GameListPage = () => {
   return (
@@ -26,9 +28,10 @@ const Header = () => {
 
 const Body = () => {
   const [selectedDay, setSelectedDay] = useState<number>();
+
   return (
     <div className="gameList-body">
-      <GameListItem isLock={true} title={GameList.Day1} day={1}></GameListItem>
+      <GameListItem isLock={false} title={GameList.Day1} day={1}></GameListItem>
       <GameListItem isLock={false} title={GameList.Day2} day={2}></GameListItem>
       <GameListItem isLock={false} title={GameList.Day3} day={3}></GameListItem>
       <GameListItem isLock={false} title={GameList.Day4} day={4}></GameListItem>
@@ -53,12 +56,12 @@ const Footer = () => {
 };
 
 const GameList = {
-  Day1: "Day 1. 소통 우리의 감정 맞춰보기",
-  Day2: "Day 2. 성&사랑 판타지 속 ‘장소’ 탐색하기",
-  Day3: "Day 3. 경제&생활 주머니 사정 공개 가능?",
-  Day4: "Day 4. 소통 우리의 격려 유형은?",
-  Day5: " Day 5. 성&사랑 판타지 속 ‘분위기’ 탐색하기",
-  Day6: " Day 6. 경제&생활 데이트 비용에 관하여",
+  Day1: "Day 1. 소통 \n우리의 감정 맞춰보기",
+  Day2: "Day 2. 성&사랑 \n판타지 속 ‘장소’ 탐색하기",
+  Day3: "Day 3. 경제&생활 \n주머니 사정 공개 가능?",
+  Day4: "Day 4. 소통 \n우리의 격려 유형은?",
+  Day5: "Day 5. 성&사랑 \n판타지 속 ‘분위기’ 탐색하기",
+  Day6: "Day 6. 경제&생활 \n데이트 비용에 관하여",
 };
 
 const GameListItem: React.FC<{
@@ -66,21 +69,30 @@ const GameListItem: React.FC<{
   title: string;
   day: number;
 }> = ({ isLock, title, day }) => {
+  const [selectedDay, setSelectedDay] =
+    useRecoilState<number>(selectedDayState);
+
   const selectDay = () => {
     localStorage.setItem("day", day.toString());
+    setSelectedDay(day);
   };
 
   if (isLock) {
     return (
-      <div onClick={selectDay} className="gameList-item ">
-        <img className="gameList-item-icon" src={UnLock} />
-        <div>{title}</div>
+      <div className={"gameList-item"}>
+        <img className="gameList-item-icon" src={Lock} />
+        <div style={{ whiteSpace: "pre-wrap" }}>{title}</div>
       </div>
     );
   } else {
     return (
-      <div onClick={selectDay} className="gameList-item">
-        <img className="gameList-item-icon" src={Lock} />
+      <div
+        onClick={selectDay}
+        className={`gameList-item ${
+          day == selectedDay ? "gameList-isSelected" : ""
+        }`}
+      >
+        <img className="gameList-item-icon" src={UnLock} />
         {title}
       </div>
     );
