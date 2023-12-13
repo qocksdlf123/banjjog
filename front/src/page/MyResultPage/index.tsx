@@ -1,12 +1,45 @@
 import "./style.css";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { getOpinions } from "../../api/ReplyAPI";
+import { selectedDayState } from "../../recoil/atoms";
+import { useRecoilState } from "recoil";
+
+interface ResGetOpinions {
+  day: number;
+  text: string;
+}
 
 const MyResultPage = () => {
+  const userId = parseInt(localStorage.getItem("userId")!);
+  const oppUserId = parseInt(localStorage.getItem("oppUserId")!);
+  const [myTexts, setMyText] = useState<ResGetOpinions[]>([]);
+  const [yourTexts, setYourText] = useState<ResGetOpinions[]>([]);
+
+  useEffect(() => {
+    getOpinions(userId)
+      .then((response) => {
+        setMyText(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log("getOpinions : " + error);
+      });
+
+    getOpinions(oppUserId)
+      .then((response) => {
+        setYourText(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log("getOpinions : " + error);
+      });
+  }, []);
   return (
     <div className="webapp-box">
       <Header></Header>
-      <Body></Body>
+      <Body myTexts={myTexts} yourTexts={yourTexts}></Body>
+      <Footer></Footer>
     </div>
   );
 };
@@ -21,15 +54,76 @@ const Header = () => {
   );
 };
 
-const Body = () => {
+interface BodyProps {
+  myTexts: ResGetOpinions[];
+  yourTexts: ResGetOpinions[];
+}
+const Body: React.FC<BodyProps> = ({ myTexts, yourTexts }) => {
+  const getMyTextByDay = (day: number) => {
+    const item = myTexts.find((item) => item.day === day);
+    if (item == null) {
+      return "게임 미진행";
+    }
+
+    return item.text == "" ? "입력 없음" : item.text;
+  };
+
+  const getYourTextByDay = (day: number) => {
+    const item = myTexts.find((item) => item.day === day);
+    if (item == null) {
+      return "게임 미진행";
+    }
+    return item.text == "" ? "입력 없음" : item.text;
+  };
+
   return (
     <div className="myResult-body">
-      <Storage day={1}></Storage>
-      <Storage day={2}></Storage>
-      <Storage day={3}></Storage>
-      <Storage day={4}></Storage>
-      <Storage day={5}></Storage>
-      <Storage day={6}></Storage>
+      <Storage
+        day={1}
+        myAnswer={getMyTextByDay(1)}
+        yourAnswer={getYourTextByDay(1)}
+      ></Storage>
+      <Storage
+        day={2}
+        myAnswer={getMyTextByDay(2)}
+        yourAnswer={getYourTextByDay(2)}
+      ></Storage>
+      <Storage
+        day={3}
+        myAnswer={getMyTextByDay(3)}
+        yourAnswer={getYourTextByDay(3)}
+      ></Storage>
+      <Storage
+        day={4}
+        myAnswer={getMyTextByDay(4)}
+        yourAnswer={getYourTextByDay(4)}
+      ></Storage>
+      <Storage
+        day={5}
+        myAnswer={getMyTextByDay(5)}
+        yourAnswer={getYourTextByDay(5)}
+      ></Storage>
+      <Storage
+        day={6}
+        myAnswer={getMyTextByDay(6)}
+        yourAnswer={getYourTextByDay(6)}
+      ></Storage>
+    </div>
+  );
+};
+
+const Footer = () => {
+  const history = useNavigate();
+  const next = () => {
+    history("/gameResult");
+  };
+
+  return (
+    <div className="myResult-footer">
+      <button onClick={next} className="myResult-footer-btn">
+        {" "}
+        반쪽 퀴즈 점수 보기
+      </button>
     </div>
   );
 };
@@ -53,53 +147,42 @@ const GameTitle = [
   "판타지 속 ‘분위기’ 탐색하기",
   "데이트 비용에 관하여",
 ];
-const Answer = [
-  [],
-  ["a. 신남", "b. 우울", "c. 안정", "d. 흥분"],
-  ["a. 우울", "b. 걱정", "c. 초조", "d. 실망"],
-  ["a. 고마움", "b. 기쁨", "c. 슬픔", "d. 아쉬움"],
-  ["a. 고마움", "b. 기쁨", "c. 슬픔", "d. 아쉬움"],
-
-  ["a. 우울", "b. 걱정", "c. 초조", "d. 실망"],
-
-  [
-    "a. 배달 온 떡볶이 값을 거짓말해서 차익 챙기기",
-    "b. 다른 사람에게 선물 받은 것을 내게 선물하면서 아무 말 하지 않기 ",
-    "c. 소득을 거짓말해 커플 통장에 넣는 자기 예금 축소시키기",
-    "d. 거짓말은 단 하나도 허용할 수 없다😠!",
-  ],
-  [
-    "a. 배달 온 떡볶이 값을 거짓말해서 차익 챙기기",
-    "b. 다른 사람에게 선물 받은 것을 내게 선물하면서 아무 말 하지 않기 ",
-    "c. 소득을 거짓말해 커플 통장에 넣는 자기 예금 축소시키기",
-    "d. 거짓말은 단 하나도 허용할 수 없다😠!",
-  ],
-  [
-    "a. 배달 온 떡볶이 값을 거짓말해서 차익 챙기기",
-    "b. 다른 사람에게 선물 받은 것을 내게 선물하면서 아무 말 하지 않기 ",
-    "c. 소득을 거짓말해 커플 통장에 넣는 자기 예금 축소시키기",
-    "d. 거짓말은 단 하나도 허용할 수 없다😠!",
-  ],
-];
 
 interface StorageProps {
   day: number;
-  myAnswer: number;
-  yourAnswer: number;
+  myAnswer: string;
+  yourAnswer: string;
 }
 
-const Storage: React.FC<{ day: number }> = ({ day }) => {
-  const history = useNavigate();
+const Storage: React.FC<StorageProps> = ({ day, myAnswer, yourAnswer }) => {
+  const [selectedDay, setSelectedDay] =
+    useRecoilState<number>(selectedDayState);
+  useEffect(() => {
+    setSelectedDay(1);
+  }, []);
   const goResult = () => {
-    history("/totalResult");
+    if (myAnswer != "게임 미진행") {
+      setSelectedDay(day);
+      localStorage.setItem("day", day.toString());
+    }
   };
+
   return (
-    <div onClick={goResult} className="myResult-body-container">
+    <div
+      onClick={goResult}
+      className={`myResult-body-container ${
+        selectedDay === day ? "myResult-body-selected" : ""
+      } `}
+    >
       <div> {GameSubject[day]}</div>
       <div> {GameTitle[day]}</div>
 
-      <AnswerContainer isMy day={day} answer={1}></AnswerContainer>
-      <AnswerContainer isMy={false} day={day} answer={2}></AnswerContainer>
+      <AnswerContainer isMy day={day} answer={myAnswer}></AnswerContainer>
+      <AnswerContainer
+        isMy={false}
+        day={day}
+        answer={yourAnswer}
+      ></AnswerContainer>
     </div>
   );
 };
@@ -107,7 +190,7 @@ const Storage: React.FC<{ day: number }> = ({ day }) => {
 interface AnswerContainerProps {
   isMy: boolean;
   day: number;
-  answer: number;
+  answer: string;
 }
 const AnswerContainer: React.FC<AnswerContainerProps> = ({
   isMy,
@@ -120,7 +203,7 @@ const AnswerContainer: React.FC<AnswerContainerProps> = ({
         className="myResult-body-answer-container"
         style={{ backgroundColor: "rgb(255, 197, 131)" }}
       >
-        {Answer[day][answer]}
+        {answer}
       </div>
     );
   }
@@ -129,7 +212,7 @@ const AnswerContainer: React.FC<AnswerContainerProps> = ({
       className="myResult-body-answer-container"
       style={{ backgroundColor: "#FF9750" }}
     >
-      {Answer[day][answer]}
+      {answer}
     </div>
   );
 };
