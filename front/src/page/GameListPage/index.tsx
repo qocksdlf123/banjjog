@@ -10,8 +10,12 @@ import { userIdState } from "../../recoil/atoms";
 import { myAnswerState, yourAnswerState } from "../../recoil/atoms";
 
 const GameListPage = () => {
+  const [selectedDay, setSelectedDay] =
+    useRecoilState<number>(selectedDayState);
   useEffect(() => {
     localStorage.setItem("day", "1");
+
+    setSelectedDay(1);
   }, []);
   return (
     <div className="webapp-box">
