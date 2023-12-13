@@ -5,6 +5,7 @@ import ShareLinkImage from "../../assets/GameResultPageAssets/ShareLinkImage.png
 import KakaoImage from "../../assets/GameResultPageAssets/KakaoImage.png";
 import Correct from "../../assets/GameResultPageAssets/Correct.png";
 import InCorrect from "../../assets/GameResultPageAssets/InCorrect.png";
+import NoresultLogo from "../../assets/GameResultPageAssets/NoResultLogo.png"
 import { isExistUser } from "../../api/UserAPI";
 import { getReply, createReply } from "../../api/ReplyAPI";
 import { useRecoilState } from "recoil";
@@ -93,6 +94,7 @@ const GameResultPage = () => {
       return (
         <div className="webapp-box">
           <NoResultHeader></NoResultHeader>
+          <img className="No-Result-Logo" src={NoresultLogo}></img>
           <NoResultBody></NoResultBody>
           <NoResultFooter></NoResultFooter>
         </div>
@@ -137,8 +139,7 @@ const NoResultBody = () => {
     <div className="no-result-body">
       <div className="no-result-body-textbox">
         <div>
-          <p>앗.. 상대방이 응답을 하지 않았네요!</p>
-          <p>상대에게 공유하고 결과 비교 보고서를 확인해보세요</p>
+          <p>상대에게 링크를 공유하고 <br/>결과 비교 보고서를 확인해보세요</p>
         </div>
       </div>
     </div>
@@ -170,7 +171,7 @@ const NoResultFooter = () => {
           src={ShareLinkImage}
           onClick={copyToClipboard}
         ></img>
-        <div>공유 링크</div>
+        <div>URL</div>
       </div>
 
       <div
@@ -178,7 +179,7 @@ const NoResultFooter = () => {
         className="no-result-footer-iconContainer"
       >
         <img className="no-result-footer-icon" src={KakaoImage}></img>
-        <div>카카오톡 채널추가</div>
+        <div>카카오톡 <br/>채널추가</div>
       </div>
       {copied && (
         <div
@@ -384,7 +385,7 @@ const ShareIcon = () => {
 
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
-      <div className="no-result-footer-iconContainer">
+      <div className="no-result-footer-iconContainer-2">
         <img
           className="result-footer-icon"
           src={ShareLinkImage}
@@ -394,7 +395,7 @@ const ShareIcon = () => {
       </div>
       <div
         onClick={() => (window.location.href = "http://pf.kakao.com/_wXnKG")}
-        className="no-result-footer-iconContainer"
+        className="no-result-footer-iconContainer-2"
       >
         <img className="result-footer-icon" src={KakaoImage}></img>
         <div>카카오톡 채널추가</div>
@@ -422,12 +423,16 @@ const ResultFooter = () => {
       <div className="result-footer-memobox">
         <div className="result-footer-inputbox-text">
           [입력란] 내 반쪽에 대해 새롭게 알게 된 점을
-          <br /> 남겨볼까요? (100자 이내)
+          남겨볼까요? (100자 이내)
         </div>
-        <input
+{/*         <input
           placeholder="서로 새롭게 알게 된 점을 다음 페이지에서 모아 볼 수 있어요. "
           className="result-footer-inputbox"
-        ></input>
+        ></input> */}
+        <textarea
+          placeholder="서로 새롭게 알게 된 점을 다음 페이지에서 모아 볼 수 있어요."
+          className="result-footer-inputbox"
+          ></textarea>
       </div>
       <button onClick={endbtn} className="result-footer-end-btn">
         입력 완료
