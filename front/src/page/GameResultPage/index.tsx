@@ -1,13 +1,13 @@
 import "./style.css";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import ShareLinkImage from "../../assets/GameResultPageAssets/ShareLinkImage.png";
 import KakaoImage from "../../assets/GameResultPageAssets/KakaoImage.png";
 import Correct from "../../assets/GameResultPageAssets/Correct.png";
 import InCorrect from "../../assets/GameResultPageAssets/InCorrect.png";
 import NoresultLogo from "../../assets/GameResultPageAssets/NoResultLogo.png"
 import { isExistUser } from "../../api/UserAPI";
-import { getReply, createReply } from "../../api/ReplyAPI";
+import { getReply, createReply, addText} from "../../api/ReplyAPI";
 import { useRecoilState } from "recoil";
 import { myNameState, banjjogNameState } from "../../recoil/atoms";
 import Logo from "../../assets/MainPageAssets/Logo.png";
@@ -23,15 +23,16 @@ const GameResultPage = () => {
   const day: number = parseInt(localStorage.getItem("day")!);
   const [myAnswer, setMyAnswer] = useRecoilState<string>(myAnswerState);
   const [yourAnswer, setYourAnswer] = useRecoilState<string>(yourAnswerState);
-
+  
   const userId = parseInt(localStorage.getItem("userId")!);
   const [oppMyAnswer, setOppMyAsnwer] = useState<string>("");
   const [oppYourAnswer, setOppYourAsnwer] = useState<string>("");
-
+  const [replyId, setReplyId] = useState<number>(0);
   const userInfo = {
     myName: yourName!,
     yourName: myName!,
   };
+
   const createReplyInfo = {
     userId: userId,
     day: day,
@@ -43,7 +44,12 @@ const GameResultPage = () => {
     console.log("yanswer : " + yourAnswer);
 
     if (myAnswer) {
-      createReply(createReplyInfo).catch((error) => {});
+      createReply(createReplyInfo)
+        .then((res) => {
+          setReplyId(res.data.replyId);
+          localStorage.setItem("replyId", res.data.replyId.toString());
+        })
+        .catch((error) => { });
     }
     isExistUser(userInfo).then((response) => {
       if (response.data == 0) {
@@ -414,10 +420,20 @@ const ShareIcon = () => {
 
 const ResultFooter = () => {
   const history = useNavigate();
+  const replyIdString = localStorage.getItem("replyId");
+  const replyId = replyIdString ? parseInt(replyIdString) : 0;
+  const [text, setText] = useState<string>("");
+  const textInfo = {
+    replyId: replyId!,
+    text: text
+  };
   const endbtn = () => {
+    addText(textInfo).then().catch((error) => { });
     history("/totalResult");
   };
-
+  const handleTextChange = (event: { target: { value: SetStateAction<string>; }; }) => {
+    setText(event.target.value); //  입력값으로 상태 업데이트
+  };
   return (
     <div className="result-footer">
       <div className="result-footer-memobox">
@@ -432,6 +448,7 @@ const ResultFooter = () => {
         <textarea
           placeholder="서로 새롭게 알게 된 점을 다음 페이지에서 모아 볼 수 있어요."
           className="result-footer-inputbox"
+          onChange={handleTextChange}
           ></textarea>
       </div>
       <button onClick={endbtn} className="result-footer-end-btn">

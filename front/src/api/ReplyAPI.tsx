@@ -37,6 +37,14 @@ interface ResGetOpinions {
   text: string;
 }
 
+interface ReqPutText{
+  replyId: number;
+  text: string;
+}
+interface ResCreateReply{
+  replyId: number;
+}
+
 export const getReply = (
   request: ReqGetReply
 ): Promise<AxiosResponse<ResGetReply>> => {
@@ -47,7 +55,7 @@ export const getReply = (
 
 export const createReply = (
   request: ReqCreateReply
-): Promise<AxiosResponse<number>> => {
+): Promise<AxiosResponse<ResCreateReply>> => {
   return axiosInstance.post("", request);
 };
 
@@ -55,4 +63,10 @@ export const getOpinions = (
   userId: number
 ): Promise<AxiosResponse<ResGetOpinions[]>> => {
   return axiosInstance.get("text" + "?userId=" + userId);
+};
+
+export const addText = (
+  request: ReqPutText
+): Promise<AxiosResponse<ReqPutText[]>> => {
+  return axiosInstance.put("", request);
 };
