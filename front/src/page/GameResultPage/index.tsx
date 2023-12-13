@@ -1,106 +1,38 @@
 import "./style.css";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ShareLinkImage from "../../assets/GameResultPageAssets/ShareLinkImage.png";
 import KakaoImage from "../../assets/GameResultPageAssets/KakaoImage.png";
 import Correct from "../../assets/GameResultPageAssets/Correct.png";
 import InCorrect from "../../assets/GameResultPageAssets/Incorrect.png";
-import { isExistUser } from "../../api/UserAPI";
-import { getReply } from "../../api/ReplyAPI";
-import { useRecoilState } from "recoil";
-import { myNameState, banjjogNameState } from "../../recoil/atoms";
-import Logo from "../../assets/MainPageAssets/Logo.png";
 
 const GameResultPage = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isResult, setIsResult] = useState<boolean>(true);
-  const [myName, setMyName] = useRecoilState<string>(myNameState);
-  const [yourName, setYourName] = useRecoilState<string>(banjjogNameState);
-  const day: number = parseInt(localStorage.getItem("day")!);
-
-  const userInfo = {
-    myName: yourName,
-    yourName: myName,
-  };
-  useEffect(() => {
-    isExistUser(userInfo).then((response) => {
-      if (response.data == 0) {
-        console.log("상대응답 없음");
-        // setIsResult(false);
-        setIsLoading(false);
-      } else {
-        getReply({ userId: response.data, day: day })
-          .then((res) => {
-            console.log("res : " + res.data);
-            if (res.data != null) {
-              setIsResult(true);
-            }
-          })
-          .catch((error) => {
-            console.log("getReply error : " + error);
-          });
-        setIsLoading(false);
-      }
-    });
-  }, []);
-
-  if (isLoading) {
+  const isResult: boolean = false;
+  if (isResult) {
     return (
       <div className="webapp-box">
-        <LoadingHeader></LoadingHeader>
-        <LoadingBody></LoadingBody>
-        <LoadingFooter></LoadingFooter>
+        <ResultHeader></ResultHeader>
+        <ResultBody></ResultBody>
+        <ResultFooter></ResultFooter>
       </div>
     );
   } else {
-    if (isResult) {
-      return (
-        <div className="webapp-box">
-          <ResultHeader></ResultHeader>
-          <ResultBody></ResultBody>
-          <ResultFooter></ResultFooter>
-        </div>
-      );
-    } else {
-      return (
-        <div className="webapp-box">
-          <NoResultHeader></NoResultHeader>
-          <NoResultBody></NoResultBody>
-          <NoResultFooter></NoResultFooter>
-        </div>
-      );
-    }
+    return (
+      <div className="webapp-box">
+        <NoResultHeader></NoResultHeader>
+        <NoResultBody></NoResultBody>
+        <NoResultFooter></NoResultFooter>
+      </div>
+    );
   }
 };
 
 export default GameResultPage;
 
-const LoadingHeader = () => {
-  return <div className="loading-header">결과 로딩중...</div>;
-};
-
-const LoadingBody = () => {
-  return (
-    <div className="loading-body">
-      <img className="loading-body-logo" src={Logo}></img>
-    </div>
-  );
-};
-
-const LoadingFooter = () => {
-  return (
-    <div className="loading-footer">
-      내일도 게임을 해보고 싶다면 <br /> 카카오톡에서 ‘반쪽이’ 검색
-    </div>
-  );
-};
-
 const NoResultHeader = () => {
   return (
     <div className="no-result-header">
-      <div>
-        연인과의 비교 결과를 <br /> 확인할 수 없습니다.
-      </div>
+      <div>연인과의 비교 결과를 <br/>확인할 수 없습니다.</div>
     </div>
   );
 };
@@ -109,8 +41,7 @@ const NoResultBody = () => {
     <div className="no-result-body">
       <div className="no-result-body-textbox">
         <div>
-          <p>앗.. 상대방이 응답을 하지 않았네요!</p>
-          <p>상대에게 공유하고 결과 비교 보고서를 확인해보세요</p>
+          <p>상대에게 링크를 공유하고<br/> 결과 비교 보고서를 확인해보세요.</p>
         </div>
       </div>
     </div>
@@ -142,15 +73,11 @@ const NoResultFooter = () => {
           src={ShareLinkImage}
           onClick={copyToClipboard}
         ></img>
-        <div>공유 링크</div>
+        <div>URL</div>
       </div>
-
-      <div
-        onClick={() => (window.location.href = "http://pf.kakao.com/_wXnKG")}
-        className="no-result-footer-iconContainer"
-      >
+      <div className="no-result-footer-iconContainer">
         <img className="no-result-footer-icon" src={KakaoImage}></img>
-        <div>카카오톡 채널추가</div>
+        <div>카카오톡 <br/> 채널추가</div>
       </div>
       {copied && (
         <div
@@ -178,7 +105,7 @@ const ResultBody = () => {
       <ResultContainer question={2}></ResultContainer>
       <ResultContainer question={3}></ResultContainer>
       <ResultContainer question={4}></ResultContainer>
-      <ShareIcon />
+      
     </div>
   );
 };
@@ -243,7 +170,8 @@ const AnswerContainer: React.FC<{ isMy: boolean }> = ({ isMy }) => {
     );
   }
 };
-const ShareIcon = () => {
+
+const ResultFooter = () => {
   const [copied, setCopied] = useState(false);
 
   const copyToClipboard = async () => {
@@ -261,44 +189,38 @@ const ShareIcon = () => {
     }
   };
 
-  return (
-    <div style={{ display: "flex", justifyContent: "center" }}>
-      <div className="no-result-footer-iconContainer">
-        <img
-          className="result-footer-icon"
-          src={ShareLinkImage}
-          onClick={copyToClipboard}
-        ></img>
-        <div>공유 링크</div>
-      </div>
-      <div className="no-result-footer-iconContainer">
-        <img className="result-footer-icon" src={KakaoImage}></img>
-        <div>카카오톡 채널추가</div>
-      </div>
-
-      {copied && (
-        <div
-          style={{ position: "absolute", fontSize: "13px", marginTop: "60%" }}
-        >
-          복사됨
-        </div>
-      )}
-    </div>
-  );
-};
-
-const ResultFooter = () => {
   const history = useNavigate();
   const endbtn = () => {
-    history("/totalResult");
+    history("/myResult");
   };
 
   return (
     <div className="result-footer">
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <div className="no-result-footer-iconContainer">
+          <img
+            className="result-footer-icon"
+            src={ShareLinkImage}
+            onClick={copyToClipboard}
+          ></img>
+          <div>공유 링크</div>
+        </div>
+        <div className="no-result-footer-iconContainer">
+          <img className="result-footer-icon" src={KakaoImage}></img>
+          <div>카카오톡 채널추가</div>
+        </div>
+
+        {copied && (
+          <div
+            style={{ position: "absolute", fontSize: "13px", marginTop: "60%" }}
+          >
+            복사됨
+          </div>
+        )}
+      </div>
       <div className="result-footer-memobox">
         <div className="result-footer-inputbox-text">
-          [입력란] 내 반쪽에 대해 새롭게 알게 된 점을
-          <br /> 남겨볼까요? (100자 이내)
+          [입력란] 내 반쪽에 대해 새롭게 알게 된 점을 남겨볼까요? (100자 이내)
         </div>
         <input
           placeholder="서로 새롭게 알게 된 점을 다음 페이지에서 모아 볼 수 있어요. "

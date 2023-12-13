@@ -1,4 +1,4 @@
-@font-face {
+/* @font-face {
   font-family: "titleFont";
   src: url(./assets/font/경기천년제목OTF_Bold.otf);
 }
@@ -6,7 +6,7 @@
 @font-face {
   font-family: "mainFont";
   src: url(./assets/font/경기천년제목OTF_Medium.otf);
-}
+} */
 
 .bold {
   font-family: titleFont, -apple-system, BlinkMacSystemFont, "Segoe UI",

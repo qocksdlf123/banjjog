@@ -71,21 +71,40 @@
   align-items: center;
   white-space: pre-wrap;
   color: #fe7c24;
-  font-size: 2.5rem;
+  font-size: 2.2rem;
   padding: 0 5%;
   box-sizing: border-box;
+  font-weight: bold;
+  text-align: center;
 }
 
 .question-explain-body {
   height: 50%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
 }
 
 .question-explain-body-main {
   width: 70%;
   color: #ff9750;
+  font-size: 1.5rem;
+  white-space: pre;
+  font-weight: bold;
 }
 
 .question-explain-body-explain {
+  margin-top: 2rem;
+  width: 60%;
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+  border-left: 4px solid #da7e4a;
+  border-right: 4px solid #da7e4a;
+  border-radius: 20px;
+  padding: 2rem;
 }
 
 .question-explain-footer {

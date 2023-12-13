@@ -10,38 +10,38 @@
   box-sizing: border-box;
   text-align: center;
   white-space: pre-wrap;
+  font-weight: bold;
 }
 .no-result-body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 45%;
   padding: 10%;
   box-sizing: border-box;
+  height: 25%;
 }
 .no-result-body-textbox {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 3px solid #ff9750;
-  border-radius: 40px;
+  border-radius: 30px;
+  background-color: #F3AF56;
   width: 100%;
   height: 100%;
-  padding: 10%;
-  font-size: x-large;
+  padding: 2%;
+  font-size: 1.2rem;
   box-sizing: border-box;
   text-align: center;
+  font-weight: bold;
 }
 .no-result-footer {
   display: flex;
   justify-content: space-around;
-  align-items: center;
   padding: 0 15%;
-  height: 35%;
 }
 
 .no-result-footer-icon {
-  width: 60%;
+  width: 50%;
   margin-bottom: 20%;
   cursor: pointer;
 }
@@ -49,7 +49,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 30%;
+  width: 70%;
+  font-weight: 400;
 }
 
 .result-header {
