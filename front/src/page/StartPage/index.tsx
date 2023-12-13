@@ -89,13 +89,17 @@ const Footer = () => {
       });
       return;
     }
+    localStorage.setItem("myName", myName);
+    localStorage.setItem("yourName", yourName);
     isExistUser({ myName, yourName }).then((response) => {
       if (response.data == 0) {
         createtUser({ myName, yourName }).then((response) => {
           setUserId(response.data.userId);
+          localStorage.setItem("userId", response.data.userId.toString());
         });
       } else {
         setUserId(response.data);
+        localStorage.setItem("userId", response.data.toString());
       }
     });
     history("/gameList");

@@ -26,14 +26,20 @@ const Header = () => {
   );
 };
 const Body = () => {
-  const isWinner = true;
+  const myScore = parseInt(localStorage.getItem("myScore")!);
+  const yourScore = parseInt(localStorage.getItem("yourScore")!);
+
   return (
     <div className="totalResult-body">
       <div style={{ color: "#FF9750", marginBottom: "3%" }}>
         반쪽에 대해 누가 더 많이 맞췄을까?
       </div>
       <div style={{ fontSize: "xxx-large" }}>
-        {isWinner ? "나의 승리!" : "아쉽지만,,졌다"}
+        {myScore > yourScore
+          ? "나의 승리!"
+          : myScore != yourScore
+          ? "아쉽지만,,졌다"
+          : "무승부"}
       </div>
       <div className="totalResult-body-graph">
         <Graph isMy></Graph>
@@ -44,8 +50,9 @@ const Body = () => {
 };
 
 const Graph: React.FC<{ isMy: boolean }> = ({ isMy }) => {
-  let score = (50 * 100) / 100;
+  let score = 0;
   if (isMy) {
+    let score = (parseInt(localStorage.getItem("myScore")!) * 100) / 100;
     return (
       <div className="totalResult-body-graph-item">
         <div
@@ -68,7 +75,7 @@ const Graph: React.FC<{ isMy: boolean }> = ({ isMy }) => {
           }}
         >
           {" "}
-          50점
+          {score}
         </div>
         <div
           style={{
@@ -80,7 +87,7 @@ const Graph: React.FC<{ isMy: boolean }> = ({ isMy }) => {
       </div>
     );
   }
-  score = (25 * 100) / 100;
+  score = (parseInt(localStorage.getItem("yourScore")!) * 100) / 100;
   return (
     <div className="totalResult-body-graph-item">
       <div
@@ -103,7 +110,7 @@ const Graph: React.FC<{ isMy: boolean }> = ({ isMy }) => {
         }}
       >
         {" "}
-        25점
+        {score}
       </div>
       <div
         style={{
@@ -118,6 +125,7 @@ const Graph: React.FC<{ isMy: boolean }> = ({ isMy }) => {
 
 const Footer = () => {
   const [copied, setCopied] = useState(false);
+  const history = useNavigate();
 
   const copyToClipboard = async () => {
     try {
@@ -164,7 +172,10 @@ const Footer = () => {
           ></img>
           <div>공유 링크</div>
         </div>
-        <div className="no-result-footer-iconContainer">
+        <div
+          onClick={() => (window.location.href = "http://pf.kakao.com/_wXnKG")}
+          className="no-result-footer-iconContainer"
+        >
           <img className="no-result-footer-icon" src={KakaoImage}></img>
           <div>카톡 채널추가</div>
         </div>
@@ -180,6 +191,14 @@ const Footer = () => {
           복사됨
         </div>
       )}
+      <button
+        onClick={() => {
+          history("/myResult");
+        }}
+        className="totalResult-footer-nextbtn"
+      >
+        모든 결과 보기
+      </button>
     </div>
   );
 };

@@ -25,20 +25,34 @@ interface ReqGetReply {
 
 interface ResGetReply {
   userId: number;
-
   replyId: number;
-
   day: number;
-
   myReply: string;
-
   predictedReply: string;
+  text: string;
+}
 
+interface ResGetOpinions {
+  day: number;
   text: string;
 }
 
 export const getReply = (
   request: ReqGetReply
+): Promise<AxiosResponse<ResGetReply>> => {
+  return axiosInstance.get(
+    "/detail?userId=" + request.userId + "&day=" + request.day
+  );
+};
+
+export const createReply = (
+  request: ReqCreateReply
 ): Promise<AxiosResponse<number>> => {
-  return axiosInstance.post("/detail", request);
+  return axiosInstance.post("", request);
+};
+
+export const getOpinions = (
+  userId: number
+): Promise<AxiosResponse<ResGetOpinions[]>> => {
+  return axiosInstance.get("text" + "?userId=" + userId);
 };

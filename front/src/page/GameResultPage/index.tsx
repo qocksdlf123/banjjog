@@ -1,38 +1,134 @@
 import "./style.css";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ShareLinkImage from "../../assets/GameResultPageAssets/ShareLinkImage.png";
 import KakaoImage from "../../assets/GameResultPageAssets/KakaoImage.png";
 import Correct from "../../assets/GameResultPageAssets/Correct.png";
-import InCorrect from "../../assets/GameResultPageAssets/Incorrect.png";
+import InCorrect from "../../assets/GameResultPageAssets/InCorrect.png";
+import { isExistUser } from "../../api/UserAPI";
+import { getReply, createReply } from "../../api/ReplyAPI";
+import { useRecoilState } from "recoil";
+import { myNameState, banjjogNameState } from "../../recoil/atoms";
+import Logo from "../../assets/MainPageAssets/Logo.png";
+import { myAnswerState, yourAnswerState } from "../../recoil/atoms";
+import { userIdState } from "../../recoil/atoms";
+import { Question, Answer } from "../QuestionPage";
 
 const GameResultPage = () => {
-  const isResult: boolean = false;
-  if (isResult) {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isResult, setIsResult] = useState<boolean>(false);
+  const myName = localStorage.getItem("myName");
+  const yourName = localStorage.getItem("yourName");
+  const day: number = parseInt(localStorage.getItem("day")!);
+  const [myAnswer, setMyAnswer] = useRecoilState<string>(myAnswerState);
+  const [yourAnswer, setYourAnswer] = useRecoilState<string>(yourAnswerState);
+
+  const userId = parseInt(localStorage.getItem("userId")!);
+  const [oppMyAnswer, setOppMyAsnwer] = useState<string>("");
+  const [oppYourAnswer, setOppYourAsnwer] = useState<string>("");
+
+  const userInfo = {
+    myName: yourName!,
+    yourName: myName!,
+  };
+  const createReplyInfo = {
+    userId: userId,
+    day: day,
+    myReply: myAnswer!,
+    predictedReply: yourAnswer!,
+  };
+  useEffect(() => {
+    console.log("answer : " + myAnswer);
+    console.log("yanswer : " + yourAnswer);
+
+    if (myAnswer) {
+      createReply(createReplyInfo).catch((error) => {});
+    }
+    isExistUser(userInfo).then((response) => {
+      if (response.data == 0) {
+        console.log("상대응답 없음");
+        setIsLoading(false);
+      } else {
+        localStorage.setItem("oppUserId", response.data.toString());
+        getReply({ userId: response.data, day: day })
+          .then((res) => {
+            setOppMyAsnwer(res.data.myReply);
+            setOppYourAsnwer(res.data.predictedReply);
+            getReply({ userId: userId, day: day }).then((myreply) => {
+              setMyAnswer(myreply.data.myReply);
+              setYourAnswer(myreply.data.predictedReply);
+            });
+            setIsResult(true);
+          })
+          .catch((error) => {
+            console.log("getReply error : " + error);
+          });
+        setIsLoading(false);
+      }
+    });
+  }, []);
+
+  if (isLoading) {
     return (
       <div className="webapp-box">
-        <ResultHeader></ResultHeader>
-        <ResultBody></ResultBody>
-        <ResultFooter></ResultFooter>
+        <LoadingHeader></LoadingHeader>
+        <LoadingBody></LoadingBody>
+        <LoadingFooter></LoadingFooter>
       </div>
     );
   } else {
-    return (
-      <div className="webapp-box">
-        <NoResultHeader></NoResultHeader>
-        <NoResultBody></NoResultBody>
-        <NoResultFooter></NoResultFooter>
-      </div>
-    );
+    if (isResult) {
+      return (
+        <div className="webapp-box">
+          <ResultHeader></ResultHeader>
+          <ResultBody
+            day={day}
+            oppMyAnswer={oppMyAnswer}
+            oppYourAnswer={oppYourAnswer}
+          ></ResultBody>
+          <ResultFooter></ResultFooter>
+        </div>
+      );
+    } else {
+      return (
+        <div className="webapp-box">
+          <NoResultHeader></NoResultHeader>
+          <NoResultBody></NoResultBody>
+          <NoResultFooter></NoResultFooter>
+        </div>
+      );
+    }
   }
 };
 
 export default GameResultPage;
 
+const LoadingHeader = () => {
+  return <div className="loading-header">결과 로딩중...</div>;
+};
+
+const LoadingBody = () => {
+  return (
+    <div className="loading-body">
+      <img className="loading-body-logo" src={Logo}></img>
+    </div>
+  );
+};
+
+const LoadingFooter = () => {
+  return (
+    <div className="loading-footer">
+      내일도 게임을 해보고 싶다면 <br /> 카카오톡에서 ‘반쪽이’ 검색
+    </div>
+  );
+};
+
 const NoResultHeader = () => {
   return (
     <div className="no-result-header">
-      <div>연인과의 비교 결과를 <br/>확인할 수 없습니다.</div>
+      <div>
+        연인과의 비교 결과를 <br /> 확인할 수 없습니다.
+      </div>
     </div>
   );
 };
@@ -41,7 +137,8 @@ const NoResultBody = () => {
     <div className="no-result-body">
       <div className="no-result-body-textbox">
         <div>
-          <p>상대에게 링크를 공유하고<br/> 결과 비교 보고서를 확인해보세요.</p>
+          <p>앗.. 상대방이 응답을 하지 않았네요!</p>
+          <p>상대에게 공유하고 결과 비교 보고서를 확인해보세요</p>
         </div>
       </div>
     </div>
@@ -73,11 +170,15 @@ const NoResultFooter = () => {
           src={ShareLinkImage}
           onClick={copyToClipboard}
         ></img>
-        <div>URL</div>
+        <div>공유 링크</div>
       </div>
-      <div className="no-result-footer-iconContainer">
+
+      <div
+        onClick={() => (window.location.href = "http://pf.kakao.com/_wXnKG")}
+        className="no-result-footer-iconContainer"
+      >
         <img className="no-result-footer-icon" src={KakaoImage}></img>
-        <div>카카오톡 <br/> 채널추가</div>
+        <div>카카오톡 채널추가</div>
       </div>
       {copied && (
         <div
@@ -98,36 +199,116 @@ const ResultHeader = () => {
   );
 };
 
-const ResultBody = () => {
+const ResultBody: React.FC<{
+  day: number;
+  oppMyAnswer: string;
+  oppYourAnswer: string;
+}> = ({ day, oppMyAnswer, oppYourAnswer }) => {
   return (
     <div className="result-body">
-      <ResultContainer question={1}></ResultContainer>
-      <ResultContainer question={2}></ResultContainer>
-      <ResultContainer question={3}></ResultContainer>
-      <ResultContainer question={4}></ResultContainer>
-      
+      <ResultContainer
+        day={day}
+        question={1}
+        oppMyAnswer={oppMyAnswer}
+        oppYourAnswer={oppYourAnswer}
+      ></ResultContainer>
+      <ResultContainer
+        day={day}
+        question={2}
+        oppMyAnswer={oppMyAnswer}
+        oppYourAnswer={oppYourAnswer}
+      ></ResultContainer>
+      <ResultContainer
+        day={day}
+        question={3}
+        oppMyAnswer={oppMyAnswer}
+        oppYourAnswer={oppYourAnswer}
+      ></ResultContainer>
+      <ResultContainer
+        day={day}
+        question={4}
+        oppMyAnswer={oppMyAnswer}
+        oppYourAnswer={oppYourAnswer}
+      ></ResultContainer>
+      <ShareIcon />
     </div>
   );
 };
 
 interface ResultContainerProps {
+  day: number;
   question: number;
+  oppMyAnswer: string;
+  oppYourAnswer: string;
 }
-const ResultContainer: React.FC<ResultContainerProps> = ({ question }) => {
+const ResultContainer: React.FC<ResultContainerProps> = ({
+  day,
+  question,
+  oppMyAnswer,
+  oppYourAnswer,
+}) => {
   return (
     <div className="result-body-container">
       <div>
-        Q.{question} {Question[question]}
+        Q.{question} {Question[day][question - 1]}
       </div>
       <div className="result-body-answer-container">
-        <AnswerContainer isMy></AnswerContainer>
-        <AnswerContainer isMy={false}></AnswerContainer>
+        <AnswerContainer
+          isMy
+          day={day}
+          question={question}
+          oppMyAnswer={oppMyAnswer}
+          oppYourAnswer={oppYourAnswer}
+        ></AnswerContainer>
+        <AnswerContainer
+          isMy={false}
+          day={day}
+          question={question}
+          oppMyAnswer={oppMyAnswer}
+          oppYourAnswer={oppYourAnswer}
+        ></AnswerContainer>
       </div>
     </div>
   );
 };
-const AnswerContainer: React.FC<{ isMy: boolean }> = ({ isMy }) => {
-  const day = parseInt(localStorage.getItem("day")!);
+
+interface AnswerContainerProps {
+  isMy: boolean;
+  day: number;
+  question: number;
+  oppMyAnswer: string;
+  oppYourAnswer: string;
+}
+const AnswerContainer: React.FC<AnswerContainerProps> = ({
+  isMy,
+  day,
+  question,
+  oppMyAnswer,
+  oppYourAnswer,
+}) => {
+  const [myAnswer, setMyAnswer] = useRecoilState<string>(myAnswerState);
+  const [yourAnswer, setYourAnswer] = useRecoilState<string>(yourAnswerState);
+
+  const MyAnswers = myAnswer.split(",");
+  const YourAnswers = yourAnswer.split(",");
+  const OppMyAnswers = oppMyAnswer.split(",");
+  const OppYourAnswers = oppYourAnswer.split(",");
+
+  useEffect(() => {
+    let myScore = 0;
+    let yourScore = 0;
+    for (let i = 0; i < 4; i++) {
+      if (YourAnswers[i] === OppMyAnswers[i]) {
+        myScore += 25;
+      }
+      if (OppYourAnswers[i] === MyAnswers[i]) {
+        yourScore += 25;
+      }
+    }
+    localStorage.setItem("myScore", myScore.toString());
+    localStorage.setItem("yourScore", yourScore.toString());
+  }, []);
+
   if (isMy) {
     return (
       <div
@@ -135,7 +316,11 @@ const AnswerContainer: React.FC<{ isMy: boolean }> = ({ isMy }) => {
         style={{ backgroundColor: "#FFEED9" }}
       >
         <div>연인에 대한 당신의 답</div>
-        <img className="result-body-answer-image" src={Correct} alt="" />
+        {YourAnswers[question - 1] == OppMyAnswers[question - 1] ? (
+          <img className="result-body-answer-image" src={Correct} alt="" />
+        ) : (
+          <img className="result-body-answer-image" src={InCorrect} alt="" />
+        )}
         <div
           style={{
             backgroundColor: "white",
@@ -144,7 +329,7 @@ const AnswerContainer: React.FC<{ isMy: boolean }> = ({ isMy }) => {
             textAlign: "center",
           }}
         >
-          {Answer[day][1]}
+          {Answer[day][question - 1][parseInt(YourAnswers[question - 1]) - 1]}
         </div>
       </div>
     );
@@ -155,23 +340,31 @@ const AnswerContainer: React.FC<{ isMy: boolean }> = ({ isMy }) => {
         style={{ backgroundColor: "#FFCD8C" }}
       >
         <div>당신에 대한 연인의 답</div>
-        <img className="result-body-answer-image" src={Correct} alt="" />
+        {OppYourAnswers[question - 1] == MyAnswers[question - 1] ? (
+          <img className="result-body-answer-image" src={Correct} alt="" />
+        ) : (
+          <img className="result-body-answer-image" src={InCorrect} alt="" />
+        )}
         <div
           style={{
             backgroundColor: "white",
             height: "100%",
             width: "100%",
             textAlign: "center",
+            overflow: "scroll",
           }}
         >
-          {Answer[day][2]}
+          {
+            Answer[day][question - 1][
+              parseInt(OppYourAnswers[question - 1]) - 1
+            ]
+          }
         </div>
       </div>
     );
   }
 };
-
-const ResultFooter = () => {
+const ShareIcon = () => {
   const [copied, setCopied] = useState(false);
 
   const copyToClipboard = async () => {
@@ -189,38 +382,47 @@ const ResultFooter = () => {
     }
   };
 
+  return (
+    <div style={{ display: "flex", justifyContent: "center" }}>
+      <div className="no-result-footer-iconContainer">
+        <img
+          className="result-footer-icon"
+          src={ShareLinkImage}
+          onClick={copyToClipboard}
+        ></img>
+        <div>공유 링크</div>
+      </div>
+      <div
+        onClick={() => (window.location.href = "http://pf.kakao.com/_wXnKG")}
+        className="no-result-footer-iconContainer"
+      >
+        <img className="result-footer-icon" src={KakaoImage}></img>
+        <div>카카오톡 채널추가</div>
+      </div>
+
+      {copied && (
+        <div
+          style={{ position: "absolute", fontSize: "13px", marginTop: "60%" }}
+        >
+          복사됨
+        </div>
+      )}
+    </div>
+  );
+};
+
+const ResultFooter = () => {
   const history = useNavigate();
   const endbtn = () => {
-    history("/myResult");
+    history("/totalResult");
   };
 
   return (
     <div className="result-footer">
-      <div style={{ display: "flex", justifyContent: "center" }}>
-        <div className="no-result-footer-iconContainer">
-          <img
-            className="result-footer-icon"
-            src={ShareLinkImage}
-            onClick={copyToClipboard}
-          ></img>
-          <div>공유 링크</div>
-        </div>
-        <div className="no-result-footer-iconContainer">
-          <img className="result-footer-icon" src={KakaoImage}></img>
-          <div>카카오톡 채널추가</div>
-        </div>
-
-        {copied && (
-          <div
-            style={{ position: "absolute", fontSize: "13px", marginTop: "60%" }}
-          >
-            복사됨
-          </div>
-        )}
-      </div>
       <div className="result-footer-memobox">
         <div className="result-footer-inputbox-text">
-          [입력란] 내 반쪽에 대해 새롭게 알게 된 점을 남겨볼까요? (100자 이내)
+          [입력란] 내 반쪽에 대해 새롭게 알게 된 점을
+          <br /> 남겨볼까요? (100자 이내)
         </div>
         <input
           placeholder="서로 새롭게 알게 된 점을 다음 페이지에서 모아 볼 수 있어요. "
@@ -233,40 +435,3 @@ const ResultFooter = () => {
     </div>
   );
 };
-
-const Question = [
-  "",
-  "이번 주에 내가 가장 많이 느끼는 감정은?",
-  "반쪽에게 가장 드러내고 싶지 않은 감정은?",
-  "나는 ____ 감정 표현이 서툴다.",
-  "반쪽이 조금 더 드러냈으면 하는 감정은?",
-];
-
-const Answer = [
-  [],
-  ["a. 신남", "b. 우울", "c. 안정", "d. 흥분"],
-  ["a. 우울", "b. 걱정", "c. 초조", "d. 실망"],
-  ["a. 고마움", "b. 기쁨", "c. 슬픔", "d. 아쉬움"],
-  ["a. 고마움", "b. 기쁨", "c. 슬픔", "d. 아쉬움"],
-
-  ["a. 우울", "b. 걱정", "c. 초조", "d. 실망"],
-
-  [
-    "a. 배달 온 떡볶이 값을 거짓말해서 차익 챙기기",
-    "b. 다른 사람에게 선물 받은 것을 내게 선물하면서 아무 말 하지 않기 ",
-    "c. 소득을 거짓말해 커플 통장에 넣는 자기 예금 축소시키기",
-    "d. 거짓말은 단 하나도 허용할 수 없다😠!",
-  ],
-  [
-    "a. 배달 온 떡볶이 값을 거짓말해서 차익 챙기기",
-    "b. 다른 사람에게 선물 받은 것을 내게 선물하면서 아무 말 하지 않기 ",
-    "c. 소득을 거짓말해 커플 통장에 넣는 자기 예금 축소시키기",
-    "d. 거짓말은 단 하나도 허용할 수 없다😠!",
-  ],
-  [
-    "a. 배달 온 떡볶이 값을 거짓말해서 차익 챙기기",
-    "b. 다른 사람에게 선물 받은 것을 내게 선물하면서 아무 말 하지 않기 ",
-    "c. 소득을 거짓말해 커플 통장에 넣는 자기 예금 축소시키기",
-    "d. 거짓말은 단 하나도 허용할 수 없다😠!",
-  ],
-];

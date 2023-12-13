@@ -227,7 +227,7 @@ const QuestionBox = () => {
   );
 };
 
-const Question = [
+export const Question = [
   [],
   [
     "이번 주에 내가 가장 많이 느끼는 감정은?",
@@ -316,7 +316,7 @@ const OppQuestion = [
   ],
 ];
 
-const Answer = [
+export const Answer = [
   [],
   [
     ["신남", "우울", "안정", "흥분"],
@@ -448,13 +448,14 @@ const SelectBox: React.FC<{ num: number }> = ({ num }) => {
       onClick={() => {
         if (curPage <= 4) {
           setMyAnswer((pre) => pre + "," + (num + 1));
-          console.log("answer : " + myAnswer);
         } else {
           setYourAnswer((pre) => pre + "," + (num + 1));
-          console.log("yanswer : " + yourAnswer);
         }
 
         if (curPage == 8) {
+          setMyAnswer((pre) => pre.substring(1));
+          setYourAnswer((pre) => pre.substring(1));
+
           history("/gameResult");
         } else if (curPage == 4) {
           setIsEndResponse(true);
