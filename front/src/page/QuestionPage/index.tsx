@@ -13,12 +13,20 @@ const QuestionPage = () => {
   const [curPage, setCurPage] = useRecoilState<number>(countPage);
   const [isEndResponse, setIsEndResponse] =
     useRecoilState<boolean>(endResponse);
+  const [myAnswer, setMyAnswer] = useRecoilState<string>(myAnswerState);
+  const [yourAnswer, setYourAnswer] = useRecoilState<string>(yourAnswerState);
 
   const handleChange = (newValue: boolean) => {
     setIsExplain(newValue);
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    setIsEndResponse(false);
+    setCurPage(1);
+    setMyAnswer("");
+    setYourAnswer("");
+  }, []);
+
   if (isExplain) {
     return (
       <div className="webapp-box">
