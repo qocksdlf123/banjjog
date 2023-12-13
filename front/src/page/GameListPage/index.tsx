@@ -5,8 +5,14 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { selectedDayState } from "../../recoil/atoms";
+import { getReply } from "../../api/ReplyAPI";
+import { userIdState } from "../../recoil/atoms";
+import { myAnswerState, yourAnswerState } from "../../recoil/atoms";
 
 const GameListPage = () => {
+  useEffect(() => {
+    localStorage.setItem("day", "1");
+  }, []);
   return (
     <div className="webapp-box">
       <Header></Header>
@@ -43,8 +49,22 @@ const Body = () => {
 
 const Footer = () => {
   const history = useNavigate();
+  const [userId, setUserId] = useRecoilState<number>(userIdState);
+  const [day, setDay] = useRecoilState<number>(selectedDayState);
+  const [myAnswer, setMyAnswer] = useRecoilState<string>(myAnswerState);
+  const [yourAnswer, setYourAnswer] = useRecoilState<string>(yourAnswerState);
+
   const startGame = () => {
-    history("/question");
+    getReply({ userId: userId, day: day })
+      .then((response) => {
+        setMyAnswer(response.data.myReply);
+        setYourAnswer(response.data.predictedReply);
+        history("/gameResult");
+      })
+      .catch((error) => {
+        console.log(error);
+        history("/question");
+      });
   };
   return (
     <div className="gameList-footer">
