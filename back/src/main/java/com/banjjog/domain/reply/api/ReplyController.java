@@ -12,6 +12,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/reply")
+@CrossOrigin
 public class ReplyController {
 
     private final ReplyService replyService;
@@ -20,6 +21,13 @@ public class ReplyController {
     @GetMapping("")
     ResponseEntity<ReplyGetResDto> getReply(Integer replyId){
         return  replyService.getReply(replyId);
+    }
+
+
+    @Operation(summary = "userId와 day로 reply 조회")
+    @GetMapping("/detail")
+    ResponseEntity<ReplyGetByUserIdResDto> getReplyByUserId(@ModelAttribute ReplyGetByUserIdReqDto dto){
+        return replyService.getReplyByUserId(dto);
     }
 
     @Operation(summary = "userId로 모든 text 즉 소감 조회", description = "해당하는 dat도 같이 조회")

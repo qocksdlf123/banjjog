@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @Slf4j
 @RequestMapping("/api/user")
+@CrossOrigin
 public class UserController {
 
     private final UserService userService;

@@ -7,9 +7,11 @@ import com.banjjog.domain.user.dao.UserRepository;
 import com.banjjog.domain.user.domain.Users;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,6 +40,24 @@ public class ReplyServiceImpl implements ReplyService{
                     .text(reply.getText())
                     .build()
         );
+    }
+
+    @Override
+    public ResponseEntity<ReplyGetByUserIdResDto> getReplyByUserId(ReplyGetByUserIdReqDto dto) {
+        Reply reply = replyRepository.getReplyByUserIdAndDay(dto.getUserId(), dto.getDay());
+        if(reply == null){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN,"reply 없음");
+        }
+        log.info("reply : {}",reply);
+        return ResponseEntity.ok(ReplyGetByUserIdResDto
+                .builder()
+                        .replyId(reply.getReplyId())
+                        .userId(reply.getUsers().getUserId())
+                        .day(reply.getDay())
+                        .myReply(reply.getMyReply())
+                        .predictedReply(reply.getPredictedReply())
+                        .text(reply.getText())
+                .build());
     }
 
     @Override
