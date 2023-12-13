@@ -56,3 +56,15 @@
   align-items: center;
   width: 50%;
 }
+
+.totalResult-footer-nextbtn {
+  width: 30%;
+  height: 20%;
+  margin-left: auto;
+  background-color: #da7e4a;
+  border-radius: 10px;
+  color: #ffffff;
+  font-size: large;
+  border: none;
+  cursor: pointer;
+}
