@@ -69,7 +69,7 @@ const Body: React.FC<BodyProps> = ({ myTexts, yourTexts }) => {
   };
 
   const getYourTextByDay = (day: number) => {
-    const item = myTexts.find((item) => item.day === day);
+    const item = yourTexts.find((item) => item.day === day);
     if (item == null) {
       return "게임 미진행";
     }
