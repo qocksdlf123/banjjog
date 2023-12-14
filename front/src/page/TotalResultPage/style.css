@@ -58,13 +58,14 @@
 }
 
 .totalResult-footer-nextbtn {
-  width: 30%;
+  width: 40%;
   height: 20%;
   margin-left: auto;
+  margin-top: 10px;
   background-color: #da7e4a;
   border-radius: 10px;
   color: #ffffff;
-  font-size: large;
+  font-size: 4.8vw;
   border: none;
   cursor: pointer;
 }
