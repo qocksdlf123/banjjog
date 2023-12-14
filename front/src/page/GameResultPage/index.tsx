@@ -329,7 +329,7 @@ const AnswerContainer: React.FC<AnswerContainerProps> = ({
         className="result-body-answer"
         style={{ backgroundColor: "#FFEED9" }}
       >
-        <div>연인에 대한 당신의 답</div>
+        <div style={{ fontSize: "3.6vw" }}>연인에 대한 당신의 답</div>
         {YourAnswers[question - 1] == OppMyAnswers[question - 1] ? (
           <img className="result-body-answer-image" src={Correct} alt="" />
         ) : (
@@ -353,7 +353,7 @@ const AnswerContainer: React.FC<AnswerContainerProps> = ({
         className="result-body-answer"
         style={{ backgroundColor: "#FFCD8C" }}
       >
-        <div>당신에 대한 연인의 답</div>
+        <div style={{ fontSize: "3.6vw" }}>당신에 대한 연인의 답</div>
         {OppYourAnswers[question - 1] == MyAnswers[question - 1] ? (
           <img className="result-body-answer-image" src={Correct} alt="" />
         ) : (
