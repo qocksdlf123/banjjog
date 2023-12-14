@@ -36,7 +36,7 @@ const Body = () => {
           color: "#FF9750",
           marginBottom: "3%",
           whiteSpace: "pre-wrap",
-          fontSize: "5.5vw",
+          fontSize: "6vw",
         }}
       >
         반쪽에 대해 누가 <br />더 많이 맞췄을까?
@@ -76,13 +76,13 @@ const Graph: React.FC<{ isMy: boolean }> = ({ isMy }) => {
         </div>
         <div
           style={{
-            fontSize: "xxx-large",
+            fontSize: "12vw",
             marginTop: "auto",
             marginBottom: "10px",
           }}
         >
           {" "}
-          {score}
+          {score}점
         </div>
         <div
           style={{
@@ -111,13 +111,13 @@ const Graph: React.FC<{ isMy: boolean }> = ({ isMy }) => {
       </div>
       <div
         style={{
-          fontSize: "xxx-large",
+          fontSize: "12vw",
           marginTop: "auto",
           marginBottom: "10px",
         }}
       >
         {" "}
-        {score}
+        {score}점
       </div>
       <div
         style={{
@@ -168,7 +168,7 @@ const Footer = () => {
       <div
         style={{
           color: "#FF9750",
-          fontSize: "x-large",
+          fontSize: "7vw",
           marginBottom: "10%",
           whiteSpace: "pre-wrap",
         }}
