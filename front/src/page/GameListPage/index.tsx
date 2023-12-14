@@ -105,7 +105,7 @@ const GameListItem: React.FC<{
     return (
       <div className={"gameList-item"}>
         <img className="gameList-item-icon" src={Lock} />
-        <div style={{ whiteSpace: "pre-wrap" }}>{title}</div>
+        <div>{title}</div>
       </div>
     );
   } else {
