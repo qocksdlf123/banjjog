@@ -5,15 +5,16 @@ import ShareLinkImage from "../../assets/GameResultPageAssets/ShareLinkImage.png
 import KakaoImage from "../../assets/GameResultPageAssets/KakaoImage.png";
 import Correct from "../../assets/GameResultPageAssets/Correct.png";
 import InCorrect from "../../assets/GameResultPageAssets/InCorrect.png";
-import NoresultLogo from "../../assets/GameResultPageAssets/NoResultLogo.png"
+import NoresultLogo from "../../assets/GameResultPageAssets/NoResultLogo.png";
 import { isExistUser } from "../../api/UserAPI";
-import { getReply, createReply, addText} from "../../api/ReplyAPI";
+import { getReply, createReply, addText } from "../../api/ReplyAPI";
 import { useRecoilState } from "recoil";
 import { myNameState, banjjogNameState } from "../../recoil/atoms";
 import Logo from "../../assets/MainPageAssets/Logo.png";
 import { myAnswerState, yourAnswerState } from "../../recoil/atoms";
 import { userIdState } from "../../recoil/atoms";
 import { Question, Answer } from "../QuestionPage";
+import { getOpinions } from "../../api/ReplyAPI";
 
 const GameResultPage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -23,7 +24,7 @@ const GameResultPage = () => {
   const day: number = parseInt(localStorage.getItem("day")!);
   const [myAnswer, setMyAnswer] = useRecoilState<string>(myAnswerState);
   const [yourAnswer, setYourAnswer] = useRecoilState<string>(yourAnswerState);
-  
+
   const userId = parseInt(localStorage.getItem("userId")!);
   const [oppMyAnswer, setOppMyAsnwer] = useState<string>("");
   const [oppYourAnswer, setOppYourAsnwer] = useState<string>("");
@@ -49,7 +50,7 @@ const GameResultPage = () => {
           setReplyId(res.data.replyId);
           localStorage.setItem("replyId", res.data.replyId.toString());
         })
-        .catch((error) => { });
+        .catch((error) => {});
     }
     isExistUser(userInfo).then((response) => {
       if (response.data == 0) {
@@ -145,7 +146,10 @@ const NoResultBody = () => {
     <div className="no-result-body">
       <div className="no-result-body-textbox">
         <div>
-          <p>상대에게 링크를 공유하고 <br/>결과 비교 보고서를 확인해보세요</p>
+          <p>
+            상대에게 링크를 공유하고 <br />
+            결과 비교 보고서를 확인해보세요
+          </p>
         </div>
       </div>
     </div>
@@ -156,7 +160,7 @@ const NoResultFooter = () => {
 
   const copyToClipboard = async () => {
     try {
-      const currentUrl = window.location.href;
+      const currentUrl = "https://otherhalfgame.site";
 
       await navigator.clipboard.writeText(currentUrl);
 
@@ -185,7 +189,10 @@ const NoResultFooter = () => {
         className="no-result-footer-iconContainer"
       >
         <img className="no-result-footer-icon" src={KakaoImage}></img>
-        <div>카카오톡 <br/>채널추가</div>
+        <div>
+          카카오톡 <br />
+          채널추가
+        </div>
       </div>
       {copied && (
         <div
@@ -376,7 +383,7 @@ const ShareIcon = () => {
 
   const copyToClipboard = async () => {
     try {
-      const currentUrl = window.location.href;
+      const currentUrl = "https://otherhalfgame.site";
 
       await navigator.clipboard.writeText(currentUrl);
 
@@ -425,31 +432,51 @@ const ResultFooter = () => {
   const [text, setText] = useState<string>("");
   const textInfo = {
     replyId: replyId!,
-    text: text
+    text: text,
   };
+  const userId = parseInt(localStorage.getItem("userId")!);
+  const day = parseInt(localStorage.getItem("day")!);
+
+  useEffect(() => {
+    getOpinions(userId).then((response) => {
+      console.log(response);
+      const item = response.data.find((item) => item.day === day);
+      console.log(item);
+
+      if (item != null && item.text != "") {
+        setText(item.text);
+      }
+    });
+  }, []);
   const endbtn = () => {
-    addText(textInfo).then().catch((error) => { });
+    if (text != "") {
+      addText(textInfo)
+        .then()
+        .catch((error) => {});
+    }
     history("/totalResult");
   };
-  const handleTextChange = (event: { target: { value: SetStateAction<string>; }; }) => {
+  const handleTextChange = (event: {
+    target: { value: SetStateAction<string> };
+  }) => {
     setText(event.target.value); //  입력값으로 상태 업데이트
   };
   return (
     <div className="result-footer">
       <div className="result-footer-memobox">
         <div className="result-footer-inputbox-text">
-          [입력란] 내 반쪽에 대해 새롭게 알게 된 점을
-          남겨볼까요? (100자 이내)
+          [입력란] 내 반쪽에 대해 새롭게 알게 된 점을 남겨볼까요? (100자 이내)
         </div>
-{/*         <input
+        {/*         <input
           placeholder="서로 새롭게 알게 된 점을 다음 페이지에서 모아 볼 수 있어요. "
           className="result-footer-inputbox"
         ></input> */}
         <textarea
           placeholder="서로 새롭게 알게 된 점을 다음 페이지에서 모아 볼 수 있어요."
           className="result-footer-inputbox"
+          value={text}
           onChange={handleTextChange}
-          ></textarea>
+        ></textarea>
       </div>
       <button onClick={endbtn} className="result-footer-end-btn">
         입력 완료
