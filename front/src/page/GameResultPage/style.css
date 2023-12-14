@@ -25,7 +25,7 @@
   justify-content: center;
   align-items: center;
   border-radius: 30px;
-  background-color: #F3AF56;
+  background-color: #f3af56;
   width: 100%;
   height: 100%;
   padding: 2%;
@@ -91,7 +91,9 @@
   padding: 5%;
   margin-bottom: 5%;
   box-sizing: border-box;
-  font-weight: bold;
+  /* font-weight: bold; */
+  white-space: pre-wrap;
+  font-size: 5.5vw;
 }
 .result-body-answer-container {
   display: flex;
@@ -166,7 +168,7 @@
   background-color: #da7e4a;
   border-radius: 10px;
   color: #ffffff;
-  font-size: x-large;
+  font-size: 7vw;
   cursor: pointer;
 }
 
