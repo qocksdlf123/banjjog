@@ -30,9 +30,7 @@ const Body = () => {
       <div className="main-body-text">
         반쪽은 연인과 함께 즐길 수 있는
         <br />
-        ‘퀴즈형 게임’ 콘텐츠를 제공하고
-        <br />
-        있습니다.
+        ‘퀴즈형 게임’ 콘텐츠를 제공하고 있습니다.
       </div>
       <img className="main-body-logo" src={Logo}></img>
     </div>
