@@ -18,10 +18,11 @@
   align-items: center;
   height: 30%;
   color: #ff9750;
-  font-size: xx-large;
+  font-size: 6.3vw;
   padding: 15%;
   box-sizing: border-box;
   text-align: center;
+  white-space: pre-wrap;
 }
 .question-footer {
   display: flex;
@@ -75,7 +76,7 @@
   align-items: center;
   white-space: pre-wrap;
   color: #fe7c24;
-  font-size: 10vw;
+  font-size: 9.8vw;
   padding: 0 5%;
   box-sizing: border-box;
   font-weight: bold;
@@ -95,7 +96,6 @@
   color: #ff9750;
   font-size: 2.5vh;
   white-space: pre;
-  font-weight: bold;
 }
 
 .question-explain-body-explain {
