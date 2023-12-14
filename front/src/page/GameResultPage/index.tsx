@@ -13,7 +13,7 @@ import { myNameState, banjjogNameState } from "../../recoil/atoms";
 import Logo from "../../assets/MainPageAssets/Logo.png";
 import { myAnswerState, yourAnswerState } from "../../recoil/atoms";
 import { userIdState } from "../../recoil/atoms";
-import { Question, Answer } from "../QuestionPage";
+import { Answer } from "../QuestionPage";
 import { getOpinions } from "../../api/ReplyAPI";
 
 const GameResultPage = () => {
@@ -213,6 +213,51 @@ const ResultHeader = () => {
   );
 };
 
+const Question = [
+  [],
+  [
+    "이번 주에 내가 가장 많이\n 느끼는 감정은?",
+    "반쪽에게 가장 드러내고 싶지\n 않은 감정은?",
+    "나는 ____ 감정 표현이 서툴다.",
+    "반쪽이 조금 더 드러냈으면\n 하는 감정은?",
+  ],
+
+  [
+    "집 안에서 섹스하기 가장 좋은\n 장소는?",
+    "집 밖에서 가장 섹스하기 좋은\n 장소는?",
+    "주변에 사람들이 있을 때,\n스릴감을 느끼며 섹스하기 가장\n 좋을 것 같은 장소는?",
+    "우리 둘만 있을 때, 섹스하기 \n가장 좋을 것 같은 장소는?",
+  ],
+
+  [
+    "지금 내 지갑 사정을 반쪽에게\n 공개할 수 있는지?",
+    "반쪽과 함께 커플 통장을 쓸때,\n 반쪽이 나 몰래 커플 계좌에 있는\n 돈을 사용한다면?",
+    "돈 관련 거짓말 중 내가 용인할 \n수 있는 것은?",
+    "반쪽과 지출/저축에 대해 \n이야기해야 하는 빈도는?",
+  ],
+
+  [
+    "내가 생각하는 가장 이상적인\n 격려는?",
+    "내가 가장 좋아하는 격려\n 표현은?",
+    "응원과 지지를 받았을 때 \n나의 기분은?",
+    "내가 제일 격려와 응원을 받고\n 싶은 영역은?",
+  ],
+
+  [
+    "섹스를 하기에 가장 좋은\n 시간은?",
+    "애무 포함 가장 적당한 섹스\n 시간은?",
+    "섹스할 때 가장 좋은 배경음은?",
+    "섹스할 때 가장 좋은 분위기는?",
+  ],
+
+  [
+    "나와 반쪽에게 데이트에 쓸 수\n 있는 8만원이 있다면?",
+    "오늘 하루를 특별하게 만들기\n 위한 지출 영역은?",
+    "나와 반쪽이 데이트 비용 문제로\n 가장 겪을 법한 갈등은?",
+    "데이트 통장 개설 시 가장\n 고려해야 할 점은?",
+  ],
+];
+
 const ResultBody: React.FC<{
   day: number;
   oppMyAnswer: string;
@@ -341,6 +386,7 @@ const AnswerContainer: React.FC<AnswerContainerProps> = ({
             height: "100%",
             width: "100%",
             textAlign: "center",
+            fontSize: "2.8vw",
           }}
         >
           {Answer[day][question - 1][parseInt(YourAnswers[question - 1]) - 1]}
@@ -366,6 +412,7 @@ const AnswerContainer: React.FC<AnswerContainerProps> = ({
             width: "100%",
             textAlign: "center",
             overflow: "scroll",
+            fontSize: "2.8vw",
           }}
         >
           {
