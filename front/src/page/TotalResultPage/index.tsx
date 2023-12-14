@@ -31,10 +31,17 @@ const Body = () => {
 
   return (
     <div className="totalResult-body">
-      <div style={{ color: "#FF9750", marginBottom: "3%" }}>
-        반쪽에 대해 누가 더 많이 맞췄을까?
+      <div
+        style={{
+          color: "#FF9750",
+          marginBottom: "3%",
+          whiteSpace: "pre-wrap",
+          fontSize: "5.5vw",
+        }}
+      >
+        반쪽에 대해 누가 <br />더 많이 맞췄을까?
       </div>
-      <div style={{ fontSize: "xxx-large" }}>
+      <div style={{ fontSize: "xxx-large", marginTop: "10px" }}>
         {myScore > yourScore
           ? "나의 승리!"
           : myScore != yourScore
@@ -129,7 +136,7 @@ const Footer = () => {
 
   const copyToClipboard = async () => {
     try {
-      const currentUrl = window.location.href;
+      const currentUrl = "https://otherhalfgame.site";
 
       await navigator.clipboard.writeText(currentUrl);
 
@@ -159,9 +166,15 @@ const Footer = () => {
   return (
     <div className="totalResult-footer">
       <div
-        style={{ color: "#FF9750", fontSize: "x-large", marginBottom: "10%" }}
+        style={{
+          color: "#FF9750",
+          fontSize: "x-large",
+          marginBottom: "10%",
+          whiteSpace: "pre-wrap",
+        }}
       >
-        내일도 게임을 해보고 싶다면 카카오톡 플친 추가하기
+        내일도 게임을 해보고 싶다면
+        <br /> 카카오톡 플친 추가하기
       </div>
       <div style={{ display: "flex" }}>
         <div className="no-result-footer-iconContainer">
