@@ -31,8 +31,8 @@
   width: 70%;
   height: 14%;
   border: 1px solid #ff9750;
-  font-size: larger;
-  padding: 0 8%;
+  padding: 0 6%;
+  font-size: 5.2vw;
   box-sizing: border-box;
   cursor: pointer;
   white-space: pre-wrap;
@@ -43,5 +43,5 @@
 .gameList-item-icon {
   position: absolute;
   height: 100%;
-  left: -46.5px;
+  left: -5vh;
 }

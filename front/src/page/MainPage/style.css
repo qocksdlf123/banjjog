@@ -27,10 +27,9 @@
 }
 .main-body-text {
   text-align: center;
-  width: 60%;
   color: #ff9750;
   white-space: pre-wrap;
-  font-size: large;
+  font-size: 5vw;
 }
 .main-body-logo {
   width: 50%;
