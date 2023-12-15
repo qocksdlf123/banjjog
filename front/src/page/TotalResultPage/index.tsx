@@ -171,6 +171,7 @@ const Footer = () => {
           fontSize: "7vw",
           marginBottom: "10%",
           whiteSpace: "pre-wrap",
+          height: "17%"
         }}
       >
         내일도 게임을 해보고 싶다면
