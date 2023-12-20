@@ -96,7 +96,7 @@ public class ReplyServiceImpl implements ReplyService{
 
     @Override
     public ResponseEntity<ReplyUpdateDateResDto> updateDateReply(ReplyUpdateDateReqDto dto) {
-        Reply reply = replyRepository.getById(dto.getReplyId());
+        Reply reply = replyRepository.getReplyByUserIdAndDay(dto.getUserId(),dto.getDay());
         if(dto.getType()==1){
             reply.updateDate1(dto.getTime());
             return ResponseEntity.ok(

@@ -7,7 +7,9 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 public class ReplyUpdateDateReqDto {
-    Integer replyId;
+    Integer userId;
+
+    Integer day;
 
     Integer type;
 

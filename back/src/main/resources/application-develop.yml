@@ -15,7 +15,7 @@ spring:
     hibernate:
       # 나중에 다시 none으로 바꾸기
 #      ddl-auto: create
-      ddl-auto: none
+      ddl-auto: update
     defer-datasource-initialization: true
   sql:
     init:
