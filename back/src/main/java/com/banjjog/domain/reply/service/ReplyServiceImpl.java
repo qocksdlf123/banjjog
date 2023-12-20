@@ -95,6 +95,45 @@ public class ReplyServiceImpl implements ReplyService{
     }
 
     @Override
+    public ResponseEntity<ReplyUpdateDateResDto> updateDateReply(ReplyUpdateDateReqDto dto) {
+        Reply reply = replyRepository.getById(dto.getReplyId());
+        if(dto.getType()==1){
+            reply.updateDate1(dto.getTime());
+            return ResponseEntity.ok(
+                    ReplyUpdateDateResDto.builder()
+                            .type(dto.getType())
+                            .time(reply.getStartAnswer())
+                            .build()
+            );
+        } else if (dto.getType()==2) {
+            reply.updateDate2(dto.getTime());
+            return ResponseEntity.ok(
+                    ReplyUpdateDateResDto.builder()
+                            .type(dto.getType())
+                            .time(reply.getEndAnswer())
+                            .build()
+            );
+        } else if (dto.getType()==3) {
+            reply.updateDate3(dto.getTime());
+            return ResponseEntity.ok(
+                    ReplyUpdateDateResDto.builder()
+                            .type(dto.getType())
+                            .time(reply.getClickURL1())
+                            .build()
+            );
+        }
+        {
+            reply.updateDate4(dto.getTime());
+            return ResponseEntity.ok(
+                    ReplyUpdateDateResDto.builder()
+                            .type(dto.getType())
+                            .time(reply.getClickURL2())
+                            .build()
+            );
+        }
+    }
+
+    @Override
     public ResponseEntity<List<ReplyGetTextResDto>> getTexts(Integer userId) {
         List<Reply> textsByUserId = replyRepository.getTextByUserId(userId);
         return ResponseEntity.ok(textsByUserId

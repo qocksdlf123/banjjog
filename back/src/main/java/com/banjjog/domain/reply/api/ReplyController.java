@@ -50,4 +50,8 @@ public class ReplyController {
     ResponseEntity<ReplyUpdateResDto> updateReply(@RequestBody ReplyUpdateReqDto dto){
         return replyService.updateReply(dto);
     }
+    @PutMapping("/time")
+    ResponseEntity<ReplyUpdateDateResDto> updateDateReply(@RequestBody ReplyUpdateDateReqDto dto){
+        return replyService.updateDateReply(dto);
+    }
 }

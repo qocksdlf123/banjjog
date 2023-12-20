@@ -14,6 +14,6 @@ public interface ReplyService {
     ResponseEntity<ReplyCreateResDto> createReply(ReplyCreateReqDto dto);
 
     ResponseEntity<ReplyUpdateResDto> updateReply(ReplyUpdateReqDto dto);
-
+    ResponseEntity<ReplyUpdateDateResDto> updateDateReply(ReplyUpdateDateReqDto dto);
     ResponseEntity<List<ReplyGetTextResDto>> getTexts(Integer userId);
 }

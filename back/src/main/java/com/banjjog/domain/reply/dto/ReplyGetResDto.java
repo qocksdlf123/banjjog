@@ -23,4 +23,5 @@ public class ReplyGetResDto {
     String predictedReply;
 
     String text;
+    
 }

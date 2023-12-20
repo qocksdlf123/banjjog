@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -36,7 +37,31 @@ public class Reply {
     @JoinColumn(name = "user_id")
     Users users;
 
+    @Column(name = "start_answer")
+    LocalDateTime startAnswer;
+
+    @Column(name = "end_answer")
+    LocalDateTime endAnswer;
+
+    @Column(name = "click_URL1")
+    LocalDateTime clickURL1;
+
+    @Column(name = "click_URL2")
+    LocalDateTime clickURL2;
+
     public void updateTest(String text){
         this.text = text;
     }
+
+    public void updateDate1(LocalDateTime time){
+        this.startAnswer = time;
+    }
+    public void updateDate2(LocalDateTime time){
+        this.endAnswer = time;
+    }
+    public void updateDate3(LocalDateTime time){
+        this.clickURL1 = time;
+    }
+    public void updateDate4(LocalDateTime time){this.clickURL2 = time;}
+
 }
