@@ -37,12 +37,24 @@ interface ResGetOpinions {
   text: string;
 }
 
-interface ReqPutText{
+interface ReqPutText {
   replyId: number;
   text: string;
 }
-interface ResCreateReply{
+interface ResCreateReply {
   replyId: number;
+}
+
+interface ReqSendTime {
+  userId: number;
+  day: number;
+  type: number;
+  time: string;
+}
+
+interface ResSendTime {
+  type: number;
+  time: Date;
 }
 
 export const getReply = (
@@ -69,4 +81,10 @@ export const addText = (
   request: ReqPutText
 ): Promise<AxiosResponse<ReqPutText[]>> => {
   return axiosInstance.put("", request);
+};
+
+export const sendTime = (
+  request: ReqSendTime
+): Promise<AxiosResponse<ResSendTime>> => {
+  return axiosInstance.put("time", request);
 };
