@@ -14,7 +14,8 @@ import Logo from "../../assets/MainPageAssets/Logo.png";
 import { myAnswerState, yourAnswerState } from "../../recoil/atoms";
 import { userIdState } from "../../recoil/atoms";
 import { Answer } from "../QuestionPage";
-import { getOpinions } from "../../api/ReplyAPI";
+import { getOpinions, sendTime } from "../../api/ReplyAPI";
+import moment from "moment";
 
 const GameResultPage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -51,6 +52,28 @@ const GameResultPage = () => {
           localStorage.setItem("replyId", res.data.replyId.toString());
         })
         .catch((error) => {});
+
+      sendTime({
+        userId: userId,
+        day: day,
+        type: 1,
+        time: localStorage.getItem("startTime")!,
+      })
+        .then()
+        .catch((error) => {
+          console.log("errorrrrrr: " + error);
+        });
+
+      sendTime({
+        userId: userId,
+        day: day,
+        type: 2,
+        time: localStorage.getItem("endTime")!,
+      })
+        .then()
+        .catch((error) => {
+          console.log("errorrrrrr2: " + error);
+        });
     }
     isExistUser(userInfo).then((response) => {
       if (response.data == 0) {
@@ -427,12 +450,24 @@ const AnswerContainer: React.FC<AnswerContainerProps> = ({
 };
 const ShareIcon = () => {
   const [copied, setCopied] = useState(false);
+  const userId = parseInt(localStorage.getItem("userId")!);
+  const day: number = parseInt(localStorage.getItem("day")!);
 
   const copyToClipboard = async () => {
     try {
       const currentUrl = "https://otherhalfgame.site";
 
       await navigator.clipboard.writeText(currentUrl);
+      sendTime({
+        userId: userId,
+        day: day,
+        type: 3,
+        time: moment().format("YYYY-MM-DDTHH:mm:sszz"),
+      })
+        .then()
+        .catch((error) => {
+          console.log("sendTime " + error);
+        });
 
       setCopied(true);
       setTimeout(() => {
@@ -454,7 +489,19 @@ const ShareIcon = () => {
         <div>공유 링크</div>
       </div>
       <div
-        onClick={() => (window.location.href = "http://pf.kakao.com/_wXnKG")}
+        onClick={() => {
+          window.location.href = "http://pf.kakao.com/_wXnKG";
+          sendTime({
+            userId: userId,
+            day: day,
+            type: 4,
+            time: moment().format("YYYY-MM-DDTHH:mm:sszz"),
+          })
+            .then()
+            .catch((error) => {
+              console.log("sendTime " + error);
+            });
+        }}
         className="no-result-footer-iconContainer-2"
       >
         <img className="result-footer-icon" src={KakaoImage}></img>
