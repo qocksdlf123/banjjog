@@ -7,6 +7,8 @@ import { countPage } from "../../recoil/atoms";
 import { countTotalPage } from "../../recoil/atoms";
 import { endResponse } from "../../recoil/atoms";
 import { myAnswerState, yourAnswerState } from "../../recoil/atoms";
+import { sendTime } from "../../api/ReplyAPI";
+import moment from "moment";
 
 const QuestionPage = () => {
   const [isExplain, setIsExplain] = useState<boolean>(true);
@@ -408,7 +410,7 @@ export const Answer = [
 
   [
     ["오전 9시", "오후 2시", "오후 8시", "새벽 1시"],
-    ["짧고 굵게 15분 미만",  "30분", "1시간", "아주 아주 길게"],
+    ["짧고 굵게 15분 미만", "30분", "1시간", "아주 아주 길게"],
     ["잔잔한 클래식", "약간 신나는 재즈 음악", "몽환적인 발라드", "배경음"],
     [
       "광활한 자연에서의 탁 트인 느낌",
@@ -454,6 +456,7 @@ const SelectBox: React.FC<{ num: number }> = ({ num }) => {
     useRecoilState<boolean>(endResponse);
   const [myAnswer, setMyAnswer] = useRecoilState<string>(myAnswerState);
   const [yourAnswer, setYourAnswer] = useRecoilState<string>(yourAnswerState);
+  const userId = parseInt(localStorage.getItem("userId")!);
 
   const numbering =
     num == 0 ? "a. " : num == 1 ? "b. " : num == 2 ? "c. " : "d. ";
@@ -462,6 +465,12 @@ const SelectBox: React.FC<{ num: number }> = ({ num }) => {
     <div
       onClick={() => {
         if (curPage <= 4) {
+          if (curPage == 1) {
+            localStorage.setItem(
+              "startTime",
+              moment().format("YYYY-MM-DDTHH:mm:sszz")
+            );
+          }
           setMyAnswer((pre) => pre + "," + (num + 1));
         } else {
           setYourAnswer((pre) => pre + "," + (num + 1));
@@ -470,6 +479,10 @@ const SelectBox: React.FC<{ num: number }> = ({ num }) => {
         if (curPage == 8) {
           setMyAnswer((pre) => pre.substring(1));
           setYourAnswer((pre) => pre.substring(1));
+          localStorage.setItem(
+            "endTime",
+            moment().format("YYYY-MM-DDTHH:mm:sszz")
+          );
 
           history("/gameResult");
         } else if (curPage == 4) {
