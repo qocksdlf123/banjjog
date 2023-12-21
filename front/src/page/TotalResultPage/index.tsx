@@ -5,6 +5,8 @@ import ShareLinkImage from "../../assets/GameResultPageAssets/ShareLinkImage.png
 import KakaoImage from "../../assets/GameResultPageAssets/KakaoImage.png";
 import SaveImage from "../../assets/GameResultPageAssets/SaveImage.png";
 import html2canvas from "html2canvas";
+import { sendTime } from "../../api/ReplyAPI";
+import moment from "moment";
 
 const TotalResultPage = () => {
   return (
@@ -133,12 +135,24 @@ const Graph: React.FC<{ isMy: boolean }> = ({ isMy }) => {
 const Footer = () => {
   const [copied, setCopied] = useState(false);
   const history = useNavigate();
+  const userId = parseInt(localStorage.getItem("userId")!);
+  const day: number = parseInt(localStorage.getItem("day")!);
 
   const copyToClipboard = async () => {
     try {
       const currentUrl = "https://otherhalfgame.site";
 
       await navigator.clipboard.writeText(currentUrl);
+      sendTime({
+        userId: userId,
+        day: day,
+        type: 3,
+        time: moment().format("YYYY-MM-DDTHH:mm:sszz"),
+      })
+        .then()
+        .catch((error) => {
+          console.log("sendTime " + error);
+        });
 
       setCopied(true);
       setTimeout(() => {
@@ -171,7 +185,7 @@ const Footer = () => {
           fontSize: "7vw",
           marginBottom: "10%",
           whiteSpace: "pre-wrap",
-          height: "17%"
+          height: "17%",
         }}
       >
         내일도 게임을 해보고 싶다면
@@ -187,7 +201,19 @@ const Footer = () => {
           <div>공유 링크</div>
         </div>
         <div
-          onClick={() => (window.location.href = "http://pf.kakao.com/_wXnKG")}
+          onClick={() => {
+            window.location.href = "http://pf.kakao.com/_wXnKG";
+            sendTime({
+              userId: userId,
+              day: day,
+              type: 4,
+              time: moment().format("YYYY-MM-DDTHH:mm:sszz"),
+            })
+              .then()
+              .catch((error) => {
+                console.log("sendTime " + error);
+              });
+          }}
           className="no-result-footer-iconContainer"
         >
           <img className="no-result-footer-icon" src={KakaoImage}></img>
