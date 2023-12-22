@@ -8,6 +8,7 @@ import { selectedDayState } from "../../recoil/atoms";
 import { getReply } from "../../api/ReplyAPI";
 import { userIdState } from "../../recoil/atoms";
 import { myAnswerState, yourAnswerState } from "../../recoil/atoms";
+import Swal from "sweetalert2";
 
 const GameListPage = () => {
   const [selectedDay, setSelectedDay] =
@@ -36,17 +37,28 @@ const Header = () => {
   );
 };
 
+const GameUnLockDate: Date[] = [
+  new Date("2023-12-22T08:00:00"),
+  new Date("2023-12-23T08:00:00"),
+  new Date("2023-12-24T08:00:00"),
+  new Date("2023-12-25T08:00:00"),
+  new Date("2023-12-26T08:00:00"),
+  new Date("2023-12-27T08:00:00"),
+];
+
 const Body = () => {
   const [selectedDay, setSelectedDay] = useState<number>();
 
   return (
     <div className="gameList-body">
-      <GameListItem isLock={false} title={GameList.Day1} day={1}></GameListItem>
-      <GameListItem isLock={false} title={GameList.Day2} day={2}></GameListItem>
-      <GameListItem isLock={false} title={GameList.Day3} day={3}></GameListItem>
-      <GameListItem isLock={false} title={GameList.Day4} day={4}></GameListItem>
-      <GameListItem isLock={false} title={GameList.Day5} day={5}></GameListItem>
-      <GameListItem isLock={false} title={GameList.Day6} day={6}></GameListItem>
+      {GameList.map((item, index) => (
+        <GameListItem
+          key={item}
+          isLock={GameUnLockDate[index].getTime() > new Date().getTime()}
+          title={item}
+          day={index + 1}
+        ></GameListItem>
+      ))}
     </div>
   );
 };
@@ -79,14 +91,24 @@ const Footer = () => {
   );
 };
 
-const GameList = {
-  Day1: "Day 1. 소통 \n우리의 감정 맞춰보기",
-  Day2: "Day 2. 성&사랑 \n판타지 속 ‘장소’ 탐색하기",
-  Day3: "Day 3. 경제&생활 \n주머니 사정 공개 가능?",
-  Day4: "Day 4. 소통 \n우리의 격려 유형은?",
-  Day5: "Day 5. 성&사랑 \n판타지 속 ‘분위기’ 탐색하기",
-  Day6: "Day 6. 경제&생활 \n데이트 비용에 관하여",
-};
+const GameList = [
+  "Day 1. 소통 \n우리의 감정 맞춰보기",
+  "Day 2. 성&사랑 \n판타지 속 ‘장소’ 탐색하기",
+  "Day 3. 경제&생활 \n주머니 사정 공개 가능?",
+  "Day 4. 소통 \n우리의 격려 유형은?",
+  "Day 5. 성&사랑 \n판타지 속 ‘분위기’ 탐색하기",
+  "Day 6. 경제&생활 \n데이트 비용에 관하여",
+];
+
+const GameAlertMsg = [
+  "",
+  "",
+  "23일 (토)에 공개됩니다!",
+  "24일 (일)에 공개됩니다!",
+  "25일 (월)에 공개됩니다!",
+  "26일 (화)에 공개됩니다!",
+  "27일 (수)에 공개됩니다!",
+];
 
 const GameListItem: React.FC<{
   isLock: boolean;
@@ -100,10 +122,27 @@ const GameListItem: React.FC<{
     localStorage.setItem("day", day.toString());
     setSelectedDay(day);
   };
+  const msg = GameAlertMsg[day];
 
   if (isLock) {
     return (
-      <div className={"gameList-item"}>
+      <div
+        style={{ whiteSpace: "pre-wrap" }}
+        onClick={() => {
+          Swal.fire({
+            title: "day" + day,
+            text: msg,
+            icon: "warning",
+            confirmButtonColor: "#4461F2",
+            confirmButtonText: "확인",
+            customClass: {
+              confirmButton: "swal-btn-login",
+              icon: "swal-icon-login",
+            },
+          });
+        }}
+        className={"gameList-item"}
+      >
         <img className="gameList-item-icon" src={Lock} />
         <div>{title}</div>
       </div>
