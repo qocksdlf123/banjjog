@@ -50,30 +50,30 @@ const GameResultPage = () => {
         .then((res) => {
           setReplyId(res.data.replyId);
           localStorage.setItem("replyId", res.data.replyId.toString());
+
+          sendTime({
+            userId: userId,
+            day: day,
+            type: 1,
+            time: localStorage.getItem("startTime")!,
+          })
+            .then()
+            .catch((error) => {
+              console.log("errorrrrrr: " + error);
+            });
+
+          sendTime({
+            userId: userId,
+            day: day,
+            type: 2,
+            time: localStorage.getItem("endTime")!,
+          })
+            .then()
+            .catch((error) => {
+              console.log("errorrrrrr2: " + error);
+            });
         })
         .catch((error) => {});
-
-      sendTime({
-        userId: userId,
-        day: day,
-        type: 1,
-        time: localStorage.getItem("startTime")!,
-      })
-        .then()
-        .catch((error) => {
-          console.log("errorrrrrr: " + error);
-        });
-
-      sendTime({
-        userId: userId,
-        day: day,
-        type: 2,
-        time: localStorage.getItem("endTime")!,
-      })
-        .then()
-        .catch((error) => {
-          console.log("errorrrrrr2: " + error);
-        });
     }
     isExistUser(userInfo).then((response) => {
       if (response.data == 0) {
@@ -180,13 +180,24 @@ const NoResultBody = () => {
 };
 const NoResultFooter = () => {
   const [copied, setCopied] = useState(false);
+  const userId = parseInt(localStorage.getItem("userId")!);
+  const day: number = parseInt(localStorage.getItem("day")!);
 
   const copyToClipboard = async () => {
     try {
       const currentUrl = "https://otherhalfgame.site";
 
       await navigator.clipboard.writeText(currentUrl);
-
+      sendTime({
+        userId: userId,
+        day: day,
+        type: 3,
+        time: moment().format("YYYY-MM-DDTHH:mm:sszz"),
+      })
+        .then()
+        .catch((error) => {
+          console.log("sendTime " + error);
+        });
       setCopied(true);
       setTimeout(() => {
         setCopied(false);
@@ -208,7 +219,19 @@ const NoResultFooter = () => {
       </div>
 
       <div
-        onClick={() => (window.location.href = "http://pf.kakao.com/_wXnKG")}
+        onClick={() => {
+          window.location.href = "http://pf.kakao.com/_wXnKG";
+          sendTime({
+            userId: userId,
+            day: day,
+            type: 4,
+            time: moment().format("YYYY-MM-DDTHH:mm:sszz"),
+          })
+            .then()
+            .catch((error) => {
+              console.log("sendTime " + error);
+            });
+        }}
         className="no-result-footer-iconContainer"
       >
         <img className="no-result-footer-icon" src={KakaoImage}></img>
