@@ -47,31 +47,35 @@ const GameResultPage = () => {
 
     if (myAnswer) {
       createReply(createReplyInfo)
-        .then((res) => {
+        .then(async (res) => {
           setReplyId(res.data.replyId);
           localStorage.setItem("replyId", res.data.replyId.toString());
-
-          sendTime({
-            userId: userId,
-            day: day,
-            type: 1,
-            time: localStorage.getItem("startTime")!,
-          })
-            .then()
-            .catch((error) => {
-              console.log("errorrrrrr: " + error);
-            });
-
-          sendTime({
-            userId: userId,
-            day: day,
-            type: 2,
-            time: localStorage.getItem("endTime")!,
-          })
-            .then()
-            .catch((error) => {
-              console.log("errorrrrrr2: " + error);
-            });
+          try {
+            await sendTime({
+              userId: userId,
+              day: day,
+              type: 1,
+              time: localStorage.getItem("startTime")!,
+            })
+              .then(
+              
+            )
+              .catch((error) => {
+                console.log("errorrrrrr: " + error);
+              });
+            await sendTime({
+              userId: userId,
+              day: day,
+              type: 2,
+              time: localStorage.getItem("endTime")!,
+            })
+              .then()
+              .catch((error) => {
+                console.log("errorrrrrr2: " + error);
+              });
+          } catch (error) {
+            console.log("Error : " + error);
+          }
         })
         .catch((error) => {});
     }
